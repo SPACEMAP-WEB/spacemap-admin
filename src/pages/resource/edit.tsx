@@ -1,6 +1,6 @@
-import HeaderSubject from 'app.components/Header/HeaderSubject';
-import ScreenResourceEdit from 'app.feature/resource/screen/ScreenResouceEdit';
-import React from 'react';
+import HeaderSubject from "app.components/Header/HeaderSubject";
+import ScreenResourceEdit from "app.feature/resource/screen/ScreenResouceEdit";
+import React from "react";
 
 const index = () => {
   return (
@@ -8,9 +8,9 @@ const index = () => {
       <HeaderSubject
         navigation={[
           {
-            key: 'Resource',
+            key: "Resource",
           },
-          { key: 'Edit' },
+          { key: "Edit" },
         ]}
         subject="Resource Edit"
         desc="Resources for document and media pages."

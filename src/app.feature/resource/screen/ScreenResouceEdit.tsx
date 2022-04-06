@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { Form, message, Button, Input, Upload, Select } from 'antd';
-import { useRouter } from 'next/router';
-import { useQueryClient } from 'react-query';
-import LottieLoadingTable from 'app.components/Loading/LottieLoadingTable';
-import Error from 'app.components/Error/Error';
-import dynamic from 'next/dynamic';
+import React, { useEffect, useRef, useState } from "react";
+import styled from "styled-components";
+import { Form, message, Button, Input, Select } from "antd";
+import { useRouter } from "next/router";
+import { useQueryClient } from "react-query";
+import LottieLoadingTable from "app.components/Loading/LottieLoadingTable";
+import Error from "app.components/Error/Error";
+import dynamic from "next/dynamic";
+import { Editor } from "@toast-ui/react-editor";
 
-const Editor = dynamic(() => import('app.components/Editor/editor'), {
+const ToastEditor = dynamic(() => import("app.components/Editor/editor"), {
   ssr: false,
 }); // client 사이드에서만 동작되기 때문에 ssr false로 설정
 
@@ -15,13 +16,14 @@ const { Option } = Select;
 
 const ScreenResourceEdit = ({}) => {
   const router = useRouter();
+  const editorRef = useRef<Editor>(null);
   const key = router.query.key;
   const [form] = Form.useForm();
   const [isChanged, setIsChanged] = useState(false);
   const queryClient = useQueryClient();
 
   const handleFinishFailed = () => {
-    message.error('Save failed!');
+    message.error("Save failed!");
   };
 
   const handleValuesChange = (value, values) => {
@@ -34,12 +36,17 @@ const ScreenResourceEdit = ({}) => {
   };
 
   const handleFinish = (values) => {
+    // console.log(editorRef.current);
     console.log(values);
   };
 
   const handleBackPress = () => {
     router.back();
   };
+
+  useEffect(() => {
+    console.log(editorRef);
+  }, [editorRef]);
 
   const initValues = {};
 
@@ -63,13 +70,13 @@ const ScreenResourceEdit = ({}) => {
             label="Type"
             rules={[
               {
-                type: 'string',
+                type: "string",
                 required: true,
               },
             ]}
           >
             <Select allowClear placeholder="type">
-              {['Media', 'Document'].map((type) => (
+              {["Media", "Document"].map((type) => (
                 <Option key={type} value={type}>
                   {type}
                 </Option>
@@ -81,7 +88,7 @@ const ScreenResourceEdit = ({}) => {
             label="Name"
             rules={[
               {
-                type: 'string',
+                type: "string",
                 required: true,
               },
             ]}
@@ -89,7 +96,7 @@ const ScreenResourceEdit = ({}) => {
             <Input placeholder="Name" />
           </Form.Item>
           <Form.Item name="contents" label="Contents">
-            <Editor />
+            <ToastEditor ref={editorRef} />
           </Form.Item>
         </div>
         <div className="button-group">

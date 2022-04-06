@@ -1,6 +1,6 @@
-import React from 'react';
-import Document, { Html, Main, Head, NextScript } from 'next/document';
-import { ServerStyleSheet } from 'styled-components';
+import React from "react";
+import Document, { Html, Main, Head, NextScript } from "next/document";
+import { ServerStyleSheet } from "styled-components";
 
 class _AppDocument extends Document {
   static async getInitialProps(ctx) {

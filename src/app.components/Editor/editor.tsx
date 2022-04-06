@@ -1,33 +1,34 @@
-import * as React from 'react';
-import axios from 'axios';
-import styled from 'styled-components';
-import { NextPage } from 'next';
+import * as React from "react";
+import styled from "styled-components";
 
-import { Editor as ToastEditor } from '@toast-ui/react-editor';
-import '@toast-ui/editor/dist/toastui-editor.css';
+import { Editor, EditorProps } from "@toast-ui/react-editor";
+import "@toast-ui/editor/dist/toastui-editor.css";
 
-const Editor = () => {
-  const editorRef = React.useRef<ToastEditor>(null);
+const ForwardedToastEditor = React.forwardRef<Editor | undefined, EditorProps>(
+  (props, ref) => {
+    console.log(ref);
+    return <Editor {...props} ref={ref} />;
+  }
+);
 
-  // Editor에 사용되는 plugin 추가
-  const plugins = [];
+ForwardedToastEditor.displayName = "ForwaredToastEditor";
 
+const ToastEditor = ({ ref }) => {
+  const editorRef = React.useRef<Editor>();
+  const handleChange = () => {
+    console.log(ref);
+  };
   return (
-    <CustomReactQuill
+    <ForwardedToastEditor
       initialValue=""
       previewStyle="vertical"
-      initialEditType="wysiwyg"
+      initialEditType="markdown"
       useCommandShortcut={true}
-      ref={editorRef}
-      plugins={plugins}
-      // onChange={()=>console.log(ToastEditor.)}
+      height="600px"
+      ref={ref}
+      onChange={handleChange}
     />
   );
 };
 
-export default Editor;
-
-// style
-const CustomReactQuill = styled(ToastEditor)`
-  height: 500px;
-`;
+export default ToastEditor;
