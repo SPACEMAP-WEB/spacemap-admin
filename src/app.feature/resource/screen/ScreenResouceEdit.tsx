@@ -6,7 +6,6 @@ import { useQueryClient } from "react-query";
 import LottieLoadingTable from "app.components/Loading/LottieLoadingTable";
 import Error from "app.components/Error/Error";
 import dynamic from "next/dynamic";
-import { Editor } from "@toast-ui/react-editor";
 
 const ToastEditor = dynamic(() => import("app.components/Editor/editor"), {
   ssr: false,
@@ -16,10 +15,10 @@ const { Option } = Select;
 
 const ScreenResourceEdit = ({}) => {
   const router = useRouter();
-  const editorRef = useRef<Editor>(null);
   const key = router.query.key;
   const [form] = Form.useForm();
   const [isChanged, setIsChanged] = useState(false);
+  const [html, setHtml] = useState<string>("");
   const queryClient = useQueryClient();
 
   const handleFinishFailed = () => {
@@ -36,17 +35,13 @@ const ScreenResourceEdit = ({}) => {
   };
 
   const handleFinish = (values) => {
-    // console.log(editorRef.current);
+    console.log(html);
     console.log(values);
   };
 
   const handleBackPress = () => {
     router.back();
   };
-
-  useEffect(() => {
-    console.log(editorRef);
-  }, [editorRef]);
 
   const initValues = {};
 
@@ -96,7 +91,7 @@ const ScreenResourceEdit = ({}) => {
             <Input placeholder="Name" />
           </Form.Item>
           <Form.Item name="contents" label="Contents">
-            <ToastEditor ref={editorRef} />
+            <ToastEditor setHtml={setHtml} />
           </Form.Item>
         </div>
         <div className="button-group">
