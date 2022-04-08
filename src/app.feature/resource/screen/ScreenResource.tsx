@@ -7,7 +7,6 @@ import RowDeleteMessage from '../component/RowDeleteMessage';
 import { dataSet } from '../component/testDataset';
 
 const ScreenResource = () => {
-  const [visible, setVisible] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const router = useRouter();
 

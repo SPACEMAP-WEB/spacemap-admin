@@ -38,17 +38,25 @@ const FormUserSign = () => {
         initialValues={{ remember: true }}
       >
         <Form.Item
+          name="name"
+          rules={[{ required: true, message: '이름을 입력해주세요' }]}
+          style={{ marginBottom: '8px' }}
+        >
+          <Input placeholder="Name" />
+        </Form.Item>
+        <Form.Item
           name="id"
           rules={[{ required: true, message: '아이디를 입력해주세요' }]}
+          style={{ marginBottom: '8px' }}
         >
-          <Input />
+          <Input placeholder="Id" />
         </Form.Item>
 
         <Form.Item
           name="pw"
           rules={[{ required: true, message: '비밀번호를 입력해주세요' }]}
         >
-          <Input.Password />
+          <Input.Password placeholder="Password" />
         </Form.Item>
 
         {false && (

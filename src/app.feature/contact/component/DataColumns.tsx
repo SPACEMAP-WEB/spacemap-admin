@@ -9,15 +9,15 @@ const DataColumns: any = () => [
     width: '5%',
   },
   {
-    title: 'Type',
-    dataIndex: 'type',
-    key: 'type',
+    title: 'Subject',
+    dataIndex: 'subject',
+    key: 'subject',
     width: '10%',
   },
   {
-    title: 'Title',
-    key: 'title',
-    dataIndex: 'title',
+    title: 'Email',
+    key: 'email',
+    dataIndex: 'email',
   },
   { title: 'Date', key: 'date', dataIndex: 'date', width: '10%' },
 ];

@@ -1,19 +1,18 @@
-import { useEffect } from "react";
-import Head from "next/head";
-import "react-quill/dist/quill.snow.css";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { Hydrate, dehydrate } from "react-query/hydration";
-import { ReactQueryDevtools } from "react-query/devtools";
-import { useGetUser, useStoreIntoAPP } from "app.store/intoAPP/store.intoAPP";
-import { parseCookies } from "nookies";
-import { GlobalStyle } from "../app.styled";
+import { useEffect } from 'react';
+import Head from 'next/head';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { Hydrate, dehydrate } from 'react-query/hydration';
+import { ReactQueryDevtools } from 'react-query/devtools';
+import { useGetUser, useStoreIntoAPP } from 'app.store/intoAPP/store.intoAPP';
+import { parseCookies } from 'nookies';
+import { GlobalStyle } from '../app.styled';
 import {
   initializeStore,
   useCreateStore,
   StoreProvider,
-} from "app.store/rootStore";
-import AppWeb from "app.layout/AppWeb";
-import PageSign from "../pages/sign";
+} from 'app.store/rootStore';
+import AppWeb from 'app.layout/AppWeb';
+import PageSign from '../pages/sign';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,7 +21,7 @@ const queryClient = new QueryClient({
       refetchOnMount: false,
       refetchOnWindowFocus: false,
       refetchIntervalInBackground: false,
-      notifyOnChangeProps: "tracked",
+      notifyOnChangeProps: 'tracked',
       cacheTime: 1,
     },
   },
