@@ -11,7 +11,6 @@ const FormUserSign = () => {
   const onFinish = async (value) => {
     try {
       const result = await sign.signin({ ...value });
-      console.log(result);
       if (result && result.data) location.reload();
     } catch (e) {
       Modal.error({

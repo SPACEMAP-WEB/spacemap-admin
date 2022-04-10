@@ -3,24 +3,25 @@ import { Layout } from 'antd';
 import Link from 'next/link';
 import styled from 'styled-components';
 import SideMenu from './component/SideMenu';
-import SideUserInfo from './component/SideUserInfo';
-import SideConfig from './component/SideConfig';
 import SideUserSetting from './component/SideSetting';
 import { DoubleRightOutlined, DoubleLeftOutlined } from '@ant-design/icons';
-import { useStoreMenuOpen } from 'app.layout/store/store.menuOpen';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'app.store/config/configureStore';
+import { setMenuOpen } from 'app.store/menuApp/store.menuApp';
 
 export const _menuPadding = 24;
 
 const { Sider } = Layout;
 
 const ScreenLNB = () => {
-  const { menuOpen, setMenu } = useStoreMenuOpen();
+  const { menuOpen } = useSelector((state: RootState) => state.menu);
+  const dispatch = useDispatch();
 
   return (
     <StyledLNB menuOpen={menuOpen}>
       <Sider theme="light" width={240}>
         <StyledMenuHeader>
-          <i className="hide-menu" onClick={() => setMenu()}>
+          <i className="hide-menu" onClick={() => dispatch(setMenuOpen())}>
             {menuOpen ? <DoubleRightOutlined /> : <DoubleLeftOutlined />}
           </i>
           <h1>
@@ -34,7 +35,6 @@ const ScreenLNB = () => {
           {/* <SideUserInfo /> */}
         </StyledMenuHeader>
         <SideMenu />
-        <SideConfig />
         <SideUserSetting />
       </Sider>
     </StyledLNB>

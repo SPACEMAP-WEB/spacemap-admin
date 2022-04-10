@@ -3,16 +3,12 @@ import Head from 'next/head';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { Hydrate, dehydrate } from 'react-query/hydration';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import { useGetUser, useStoreIntoAPP } from 'app.store/intoAPP/store.intoAPP';
-import { parseCookies } from 'nookies';
 import { GlobalStyle } from '../app.styled';
-import {
-  initializeStore,
-  useCreateStore,
-  StoreProvider,
-} from 'app.store/rootStore';
 import AppWeb from 'app.layout/AppWeb';
 import PageSign from '../pages/sign';
+import { Provider, useDispatch, useSelector } from 'react-redux';
+import { RootState, store } from 'app.store/config/configureStore';
+import { loginUser } from 'app.store/loginApp/loginUser';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -28,15 +24,16 @@ const queryClient = new QueryClient({
 });
 
 const App = ({ Component, pageProps }) => {
-  const getUser = useGetUser();
-  const requestAuthUser = useStoreIntoAPP((state) => state.requestAuthUser);
+  const { login, isLoading } = useSelector((state: RootState) => state.login);
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    requestAuthUser();
-  }, []);
-  if (getUser.isLoading) return null;
+    dispatch(loginUser());
+  }, [dispatch]);
+  if (isLoading) return null;
   return (
     <>
-      {getUser?.login ? (
+      {login ? (
         <AppWeb contentsComponent={<Component {...pageProps} />} />
       ) : (
         <PageSign />
@@ -47,7 +44,6 @@ const App = ({ Component, pageProps }) => {
 
 const AppContainer = (props) => {
   const { pageProps } = props;
-  const createStore = useCreateStore(pageProps.initialZustandState);
 
   return (
     <>
@@ -55,30 +51,21 @@ const AppContainer = (props) => {
         <title> Space-Map Admin-Page</title>
       </Head>
       <GlobalStyle />
-      <StoreProvider createStore={createStore}>
+      <Provider store={store}>
         <QueryClientProvider client={queryClient}>
           <ReactQueryDevtools initialIsOpen={false} />
           <Hydrate state={pageProps.dehydratedState}>
             <App {...props} />
           </Hydrate>
         </QueryClientProvider>
-      </StoreProvider>
+      </Provider>
     </>
   );
 };
 
 AppContainer.getInitialProps = async ({ Component, ctx }) => {
-  const cookies = parseCookies(ctx);
-  const zustandStore = initializeStore();
-
-  /* only SSR */
-  if (!!ctx.req) {
-    await zustandStore.getState().configPrefetch(cookies);
-  }
-
   return {
     pageProps: {
-      initialZustandState: JSON.parse(JSON.stringify(zustandStore.getState())),
       dehydratedState: dehydrate(queryClient),
       ...(Component.getInitialProps
         ? await Component.getInitialProps(ctx)

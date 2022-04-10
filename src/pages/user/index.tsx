@@ -1,4 +1,5 @@
 import HeaderSubject from 'app.components/Header/HeaderSubject';
+import ScreenUser from 'app.feature/user/screen/ScreenUser';
 import React from 'react';
 
 const index = () => {
@@ -13,6 +14,7 @@ const index = () => {
         subject="User"
         desc="Summary for users."
       />
+      <ScreenUser />
     </>
   );
 };

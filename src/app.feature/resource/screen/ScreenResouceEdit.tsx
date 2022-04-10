@@ -1,28 +1,31 @@
-import React, { useEffect, useRef, useState } from "react";
-import styled from "styled-components";
-import { Form, message, Button, Input, Select } from "antd";
-import { useRouter } from "next/router";
-import { useQueryClient } from "react-query";
-import LottieLoadingTable from "app.components/Loading/LottieLoadingTable";
-import Error from "app.components/Error/Error";
-import dynamic from "next/dynamic";
+import React, { useEffect, useRef, useState } from 'react';
+import styled from 'styled-components';
+import { Form, message, Button, Input, Select, Upload } from 'antd';
+import { InboxOutlined } from '@ant-design/icons';
+import { useRouter } from 'next/router';
+import { useQueryClient } from 'react-query';
+import LottieLoadingTable from 'app.components/Loading/LottieLoadingTable';
+import Error from 'app.components/Error/Error';
+import dynamic from 'next/dynamic';
 
-const ToastEditor = dynamic(() => import("app.components/Editor/editor"), {
+const ToastEditor = dynamic(() => import('app.components/Editor/editor'), {
   ssr: false,
 }); // client 사이드에서만 동작되기 때문에 ssr false로 설정
 
 const { Option } = Select;
+const { Dragger } = Upload;
 
 const ScreenResourceEdit = ({}) => {
   const router = useRouter();
   const key = router.query.key;
   const [form] = Form.useForm();
   const [isChanged, setIsChanged] = useState(false);
-  const [html, setHtml] = useState<string>("");
+  const [fileList, setFileList] = useState([]);
+  const [html, setHtml] = useState<string>('');
   const queryClient = useQueryClient();
 
   const handleFinishFailed = () => {
-    message.error("Save failed!");
+    message.error('Save failed!');
   };
 
   const handleValuesChange = (value, values) => {
@@ -41,6 +44,17 @@ const ScreenResourceEdit = ({}) => {
 
   const handleBackPress = () => {
     router.back();
+  };
+
+  const handleFileChange = ({ fileList }) => {
+    setFileList(fileList);
+  };
+
+  const normFile = (e: any) => {
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e && e.fileList;
   };
 
   const initValues = {};
@@ -65,13 +79,13 @@ const ScreenResourceEdit = ({}) => {
             label="Type"
             rules={[
               {
-                type: "string",
+                type: 'string',
                 required: true,
               },
             ]}
           >
             <Select allowClear placeholder="type">
-              {["Media", "Document"].map((type) => (
+              {['Media', 'Document'].map((type) => (
                 <Option key={type} value={type}>
                   {type}
                 </Option>
@@ -83,7 +97,7 @@ const ScreenResourceEdit = ({}) => {
             label="Name"
             rules={[
               {
-                type: "string",
+                type: 'string',
                 required: true,
               },
             ]}
@@ -92,6 +106,20 @@ const ScreenResourceEdit = ({}) => {
           </Form.Item>
           <Form.Item name="contents" label="Contents">
             <ToastEditor setHtml={setHtml} />
+          </Form.Item>
+          <Form.Item name="files" label="Files" getValueProps={normFile}>
+            <Dragger onChange={handleFileChange}>
+              <p className="ant-upload-drag-icon">
+                <InboxOutlined />
+              </p>
+              <p className="ant-upload-text">
+                Click or drag file to this area to upload
+              </p>
+              <p className="ant-upload-hint">
+                Support for a single or bulk upload. Strictly prohibit from
+                uploading company data or other band files
+              </p>
+            </Dragger>
           </Form.Item>
         </div>
         <div className="button-group">

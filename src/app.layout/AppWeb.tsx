@@ -1,14 +1,13 @@
+import { RootState } from 'app.store/config/configureStore';
 import React from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import ScreenLNB from './lnb/ScreenLNB';
-import { useStoreSSR } from 'app.store/rootStore';
-import { useStoreMenuOpen } from './store/store.menuOpen';
 
 export const transformValue = 54;
 
 const AppWeb = ({ contentsComponent }) => {
-  const getAppConfig = useStoreSSR((state) => state.appConfig);
-  const { menuOpen } = useStoreMenuOpen();
+  const { menuOpen } = useSelector((state: RootState) => state.menu);
   return (
     <StyledLayout sideMenuVisible={menuOpen}>
       <ScreenLNB />
@@ -16,7 +15,7 @@ const AppWeb = ({ contentsComponent }) => {
         <div id="appContent">
           <div
             style={{ padding: '30px 40px' }}
-            className={`content-layout apps-content full-width-${getAppConfig.minWidth}`}
+            className={`content-layout apps-content full-width-`}
           >
             {contentsComponent}
           </div>

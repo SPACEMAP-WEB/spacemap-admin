@@ -1,7 +1,25 @@
+import { createSlice } from '@reduxjs/toolkit';
+import { loginUser } from './loginUser';
+
 interface userData {
-  name: string;
-  id: string;
-  password: string;
+  login: boolean;
+  isLoading: true;
 }
 
-export const login = () => {};
+const initialState: userData = {
+  login: false,
+  isLoading: true,
+};
+
+const userSlice = createSlice({
+  name: 'user',
+  initialState,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(loginUser.fulfilled, (state, action) => {
+      return { ...state, ...action.payload, isLoading: false };
+    });
+  },
+});
+
+export default userSlice.reducer;
