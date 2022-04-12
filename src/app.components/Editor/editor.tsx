@@ -6,12 +6,24 @@ import '@toast-ui/editor/dist/toastui-editor.css';
 
 const html = '';
 
-const ToastEditor = ({ setHtml }) => {
+const ToastEditor = ({ html, setHtml }) => {
   const editorRef = React.useRef<Editor>();
   const handleChange = () => {
     if (!editorRef.current) return;
     setHtml(editorRef.current.getInstance().getHTML());
   };
+
+  React.useEffect(() => {
+    if (editorRef.current) {
+      editorRef.current.getInstance().setHTML(html);
+      editorRef.current.getInstance().removeHook('addImageBlobHook');
+      editorRef.current
+        .getInstance()
+        .addHook('addImageBlobHook', (blob, callback) => {
+          console.log(blob);
+        });
+    }
+  }, []);
 
   return (
     <Editor

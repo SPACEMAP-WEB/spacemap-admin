@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import Head from 'next/head';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { Hydrate, dehydrate } from 'react-query/hydration';
@@ -8,7 +7,6 @@ import AppWeb from 'app.layout/AppWeb';
 import PageSign from '../pages/sign';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import { RootState, store } from 'app.store/config/configureStore';
-import { loginUser } from 'app.store/loginApp/loginUser';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -24,13 +22,8 @@ const queryClient = new QueryClient({
 });
 
 const App = ({ Component, pageProps }) => {
-  const { login, isLoading } = useSelector((state: RootState) => state.login);
-  const dispatch = useDispatch();
+  const { login } = useSelector((state: RootState) => state.login);
 
-  useEffect(() => {
-    dispatch(loginUser());
-  }, [dispatch]);
-  if (isLoading) return null;
   return (
     <>
       {login ? (

@@ -4,14 +4,17 @@ import { InfoCircleOutlined } from '@ant-design/icons';
 import { Form, Input, Button, Modal } from 'antd';
 import styled from 'styled-components';
 import sign from 'app.modules/api/sign';
+import { useDispatch } from 'react-redux';
 
 const FormUserSign = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const onFinish = async (value) => {
     try {
-      const result = await sign.signin({ ...value });
-      if (result && result.data) location.reload();
+      const result = await sign.signin({ ...value }, dispatch);
+      // location.reload();
+      // if (result && result.data) location.reload();
     } catch (e) {
       Modal.error({
         title: 'Error',
@@ -52,7 +55,7 @@ const FormUserSign = () => {
         </Form.Item>
 
         <Form.Item
-          name="pw"
+          name="password"
           rules={[{ required: true, message: '비밀번호를 입력해주세요' }]}
         >
           <Input.Password placeholder="Password" />

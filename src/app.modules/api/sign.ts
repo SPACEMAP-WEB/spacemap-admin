@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { loginUser, logoutUser } from 'app.store/loginApp/loginUser';
 
 const config = {
   headers: {
@@ -7,29 +7,20 @@ const config = {
 };
 
 class Sign {
-  private id = 'admin';
-  private pw = '1234';
-  async signin(info) {
+  async signin(info, dispatch) {
     try {
-      const { id, pw } = info;
-      if (this.id !== id || this.pw !== pw) throw new Error();
-      const response = await axios.post(
-        '/api/sign/signin',
-        {
-          id,
-          pw,
-        },
-        config
-      );
-      return response;
+      dispatch(loginUser(info));
     } catch (error) {
       throw new Error();
     }
   }
 
-  async sessionOut() {
-    const { data } = await axios.post('/api/sign/signout');
-    if (data) location.href = '/sign';
+  async sessionOut(dispatch) {
+    try {
+      dispatch(logoutUser());
+    } catch (error) {
+      throw new Error();
+    }
   }
 }
 

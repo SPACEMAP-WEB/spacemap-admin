@@ -1,14 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { loginUser } from './loginUser';
+import { loginUser, logoutUser } from './loginUser';
 
 interface userData {
   login: boolean;
-  isLoading: true;
 }
 
 const initialState: userData = {
   login: false,
-  isLoading: true,
 };
 
 const userSlice = createSlice({
@@ -16,8 +14,11 @@ const userSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(loginUser.fulfilled, (state, action) => {
-      return { ...state, ...action.payload, isLoading: false };
+    builder.addCase(loginUser.fulfilled, (state) => {
+      return { ...state, login: true };
+    });
+    builder.addCase(logoutUser.fulfilled, (state) => {
+      return { ...state, login: false };
     });
   },
 });

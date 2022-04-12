@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import api from 'app.modules/api';
+import { API_LOGIN, API_LOGOUT } from 'app.modules/keyFactory';
 
 interface user {
   name: string;
@@ -7,7 +8,12 @@ interface user {
   password: string;
 }
 
-export const loginUser = createAsyncThunk('LOGIN', async () => {
-  const session = await axios.get('/api/sign/session');
-  return session.data;
+export const loginUser = createAsyncThunk('LOGIN', async (data: user) => {
+  const res = await api.POST({ url: API_LOGIN, data });
+  return res.data;
+});
+
+export const logoutUser = createAsyncThunk('LOGOUT', async () => {
+  const res = await api.POST({ url: API_LOGOUT });
+  return res.data;
 });

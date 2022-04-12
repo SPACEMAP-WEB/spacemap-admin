@@ -8,19 +8,19 @@ class API {
   private readonly apiUrl: string;
   private readonly ver: string;
 
-  constructor() {}
+  constructor() {
+    this.apiUrl = 'http://localhost:3007';
+    this.ver = '';
+  }
 
   async CALL({ headers = {}, url = '', method, data = null }) {
     try {
-      const getSession = await axios.post('/api/sign/session');
-
       const response: any = await axios({
         method,
         data,
         url: this.apiUrl + url,
         headers: {
           ...headers,
-          Authorization: `Bearer ${getSession.data.token}`,
         },
       });
 
@@ -37,9 +37,7 @@ class API {
         message: 'error',
         description: error.toString(),
       });
-      throw new Error(error);
     } finally {
-      // createTopLoadingDom('end');
     }
   }
 
@@ -54,6 +52,7 @@ class API {
   }
 
   POST(params) {
+    console.log(params);
     return this.CALL({
       ...params,
       method: 'POST',

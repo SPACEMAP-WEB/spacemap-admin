@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Form, message, Button, Input, Select, Upload } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
@@ -105,7 +105,7 @@ const ScreenResourceEdit = ({}) => {
             <Input placeholder="Name" />
           </Form.Item>
           <Form.Item name="contents" label="Contents">
-            <ToastEditor setHtml={setHtml} />
+            <ToastEditor html={html} setHtml={setHtml} />
           </Form.Item>
           <Form.Item name="files" label="Files" getValueProps={normFile}>
             <Dragger onChange={handleFileChange}>

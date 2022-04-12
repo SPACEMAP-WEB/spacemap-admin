@@ -4,11 +4,17 @@ import styled from 'styled-components';
 import { LogoutOutlined } from '@ant-design/icons';
 import { _menuPadding, TinyHeader } from '../ScreenLNB';
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'app.store/config/configureStore';
+import sign from 'app.modules/api/sign';
 
 const SideSetting: React.FC = () => {
+  const { login } = useSelector((state: RootState) => state.login);
+  const dispatch = useDispatch();
+
   const logout = async () => {
-    const { data } = await axios.post('/api/sign/signout');
-    if (data) location.href = '/';
+    await sign.sessionOut(dispatch);
+    if (!login) location.href = '/';
   };
   return (
     <section>

@@ -2,7 +2,7 @@ import { Table } from 'antd';
 import React from 'react';
 import styled from 'styled-components';
 import DataColumns from '../component/DataColumns';
-import { dataSet } from '../component/testDataset';
+import { dataSet } from '../component/testDataSet';
 
 const ScreenUser = () => {
   return (
