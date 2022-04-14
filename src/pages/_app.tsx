@@ -7,6 +7,8 @@ import AppWeb from 'app.layout/AppWeb';
 import PageSign from '../pages/sign';
 import { Provider, useDispatch, useSelector } from 'react-redux';
 import { RootState, store } from 'app.store/config/configureStore';
+import { useEffect } from 'react';
+import { requestUser } from 'app.store/loginApp/loginUser';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,7 +24,14 @@ const queryClient = new QueryClient({
 });
 
 const App = ({ Component, pageProps }) => {
-  const { login } = useSelector((state: RootState) => state.login);
+  const { login, isLoading } = useSelector((state: RootState) => state.login);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(requestUser());
+  }, []);
+
+  if (!isLoading) return null;
 
   return (
     <>

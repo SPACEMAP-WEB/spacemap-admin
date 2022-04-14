@@ -1,14 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from 'antd';
 import styled from 'styled-components';
-import { LogoutOutlined } from '@ant-design/icons';
+import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import { _menuPadding, TinyHeader } from '../ScreenLNB';
-import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'app.store/config/configureStore';
 import sign from 'app.modules/api/sign';
+import ModalChangePassword from 'app.feature/sign/ModalChangePassword';
 
 const SideSetting: React.FC = () => {
+  const [visible, setVisible] = useState(false);
   const { login } = useSelector((state: RootState) => state.login);
   const dispatch = useDispatch();
 
@@ -21,11 +22,16 @@ const SideSetting: React.FC = () => {
       <StyledWrapper _menuPadding={_menuPadding}>
         <TinyHeader text="SETTING" />
         <div className="setting-box">
-          <Button onClick={logout}>
+          <Button onClick={logout} size="large">
             <LogoutOutlined />
             로그아웃
           </Button>
+          <Button onClick={() => setVisible(true)} size="large">
+            <UserOutlined />
+            정보수정
+          </Button>
         </div>
+        <ModalChangePassword visible={visible} setVisible={setVisible} />
       </StyledWrapper>
     </section>
   );
@@ -49,6 +55,7 @@ const StyledWrapper = styled.div`
       width: 48.5%;
       height: 35px;
       font-size: 12px;
+      margin-right: 5px;
       .anticon {
         position: relative;
         top: 1px;

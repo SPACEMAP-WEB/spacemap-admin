@@ -1,6 +1,4 @@
 import * as React from 'react';
-import styled from 'styled-components';
-
 import { Editor } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
 

@@ -1,33 +1,31 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { InfoCircleOutlined } from '@ant-design/icons';
 import { Form, Input, Button, Modal } from 'antd';
 import styled from 'styled-components';
 import sign from 'app.modules/api/sign';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'app.store/config/configureStore';
 
 const FormUserSign = () => {
-  const router = useRouter();
+  const { error } = useSelector((state: RootState) => state.login);
   const dispatch = useDispatch();
 
   const onFinish = async (value) => {
-    try {
-      const result = await sign.signin({ ...value }, dispatch);
-      // location.reload();
-      // if (result && result.data) location.reload();
-    } catch (e) {
-      Modal.error({
-        title: 'Error',
-        content: (
-          <>
-            아이디 또는 패스워드가 올바르지 않습니다.
-            <br />
-            재시도를 해주세요.
-          </>
-        ),
-      });
-    }
+    await sign.signin({ ...value }, dispatch);
   };
+
+  if (error)
+    Modal.error({
+      title: 'Error',
+      content: (
+        <>
+          아이디 또는 패스워드가 올바르지 않습니다.
+          <br />
+          재시도를 해주세요.
+        </>
+      ),
+    });
 
   return (
     <StyledWrapper>

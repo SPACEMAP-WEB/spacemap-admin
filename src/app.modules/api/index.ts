@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { notification } from 'antd';
 import { qs } from 'app.modules/util';
+import { API_LOGIN } from 'app.modules/keyFactory';
+import { responseSymbol } from 'next/dist/server/web/spec-compliant/fetch-event';
 
 axios.defaults.withCredentials = true;
 
@@ -24,7 +26,7 @@ class API {
         },
       });
 
-      if (response.data?.status === 301 || response.data?.status === 401) {
+      if (response.data?.status === 301) {
         notification.error({
           message: response.data.erro,
           description: response.data.error.message || 'error',
@@ -33,10 +35,12 @@ class API {
 
       return response;
     } catch (error) {
-      notification.error({
-        message: 'error',
-        description: error.toString(),
-      });
+      if (url !== API_LOGIN && !error.includes('401')) {
+        notification.error({
+          message: 'error',
+          description: error.toString(),
+        });
+      }
     } finally {
     }
   }
@@ -52,7 +56,6 @@ class API {
   }
 
   POST(params) {
-    console.log(params);
     return this.CALL({
       ...params,
       method: 'POST',

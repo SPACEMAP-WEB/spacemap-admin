@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import api from 'app.modules/api';
-import { API_LOGIN, API_LOGOUT } from 'app.modules/keyFactory';
+import { API_GET_TOKENS, API_LOGIN, API_LOGOUT } from 'app.modules/keyFactory';
 
 interface user {
   name: string;
@@ -9,11 +9,28 @@ interface user {
 }
 
 export const loginUser = createAsyncThunk('LOGIN', async (data: user) => {
-  const res = await api.POST({ url: API_LOGIN, data });
-  return res.data;
+  try {
+    const res = await api.POST({ url: API_LOGIN, data });
+    return res.data;
+  } catch (error) {
+    throw new Error(error);
+  }
 });
 
 export const logoutUser = createAsyncThunk('LOGOUT', async () => {
-  const res = await api.POST({ url: API_LOGOUT });
-  return res.data;
+  try {
+    const res = await api.POST({ url: API_LOGOUT });
+    return res.data;
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
+export const requestUser = createAsyncThunk('AUTH_CHECK', async () => {
+  try {
+    const res = await api.GET(API_GET_TOKENS);
+    return res.data;
+  } catch (error) {
+    throw new Error(error);
+  }
 });
