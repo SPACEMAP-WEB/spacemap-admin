@@ -1,11 +1,7 @@
-import {
-  ContactsOutlined,
-  FormOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
-import React from 'react';
+import { ContactsOutlined, FormOutlined, UserOutlined } from '@ant-design/icons'
+import React from 'react'
 
-export const indexPathKey = 'dashboard';
+export const indexPathKey = 'dashboard'
 
 export const rootMenu = [
   {
@@ -26,4 +22,4 @@ export const rootMenu = [
     key: '/user',
     path: '/user',
   },
-];
+]

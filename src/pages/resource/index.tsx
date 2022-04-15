@@ -1,6 +1,6 @@
-import HeaderSubject from 'app.components/Header/HeaderSubject';
-import ScreenResource from 'app.feature/resource/screen/ScreenResource';
-import React from 'react';
+import HeaderSubject from 'app.components/Header/HeaderSubject'
+import ScreenResource from 'app.feature/resource/screen/ScreenResource'
+import React from 'react'
 
 const index = () => {
   return (
@@ -16,7 +16,7 @@ const index = () => {
       />
       <ScreenResource />
     </>
-  );
-};
+  )
+}
 
-export default index;
+export default index

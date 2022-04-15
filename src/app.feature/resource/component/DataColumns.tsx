@@ -1,5 +1,3 @@
-import React from 'react';
-
 const DataColumns: any = () => [
   {
     title: 'Index',
@@ -20,6 +18,6 @@ const DataColumns: any = () => [
     dataIndex: 'title',
   },
   { title: 'Date', key: 'date', dataIndex: 'date', width: '10%' },
-];
+]
 
-export default DataColumns;
+export default DataColumns

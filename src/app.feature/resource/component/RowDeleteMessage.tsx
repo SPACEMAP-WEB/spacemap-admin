@@ -1,24 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import { Button, Alert, message } from 'antd';
+import React, { useEffect, useState } from 'react'
+import styled from 'styled-components'
+import { Button, Alert } from 'antd'
 
 const RowDeleteMessage = ({ selectedRowKeys, setSelectedRowKeys }) => {
-  const [isChecked, setIsChecked] = useState(false);
+  const [isChecked, setIsChecked] = useState(false)
   const handleDeletePress = async () => {
-    setSelectedRowKeys([]);
-  };
+    setSelectedRowKeys([])
+  }
   useEffect(() => {
-    selectedRowKeys.length && setIsChecked(true);
-  }, [selectedRowKeys]);
+    selectedRowKeys.length && setIsChecked(true)
+  }, [selectedRowKeys])
 
-  let className: string = '';
+  let className = ''
+
   if (selectedRowKeys.length) {
-    className = 'form can-delete';
+    className = 'form can-delete'
   } else {
     if (isChecked) {
-      className = 'form can-not-delete';
+      className = 'form can-not-delete'
     } else {
-      className = 'form';
+      className = 'form'
     }
   }
 
@@ -34,22 +35,17 @@ const RowDeleteMessage = ({ selectedRowKeys, setSelectedRowKeys }) => {
           }
           type="error"
           action={
-            <Button
-              danger
-              size="small"
-              type="primary"
-              onClick={handleDeletePress}
-            >
+            <Button danger size="small" type="primary" onClick={handleDeletePress}>
               Delete
             </Button>
           }
         />
       </div>
     </StyledWrapper>
-  );
-};
+  )
+}
 
-export default RowDeleteMessage;
+export default RowDeleteMessage
 
 const StyledWrapper = styled.div`
   position: relative;
@@ -96,4 +92,4 @@ const StyledWrapper = styled.div`
       transform: translateY(0px);
     }
   }
-`;
+`

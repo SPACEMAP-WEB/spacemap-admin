@@ -1,19 +1,18 @@
-import React, { useState } from 'react';
-import { useRouter } from 'next/router';
-import { InfoCircleOutlined } from '@ant-design/icons';
-import { Form, Input, Button, Modal } from 'antd';
-import styled from 'styled-components';
-import sign from 'app.modules/api/sign';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'app.store/config/configureStore';
+import React from 'react'
+import { InfoCircleOutlined } from '@ant-design/icons'
+import { Form, Input, Button, Modal } from 'antd'
+import styled from 'styled-components'
+import sign from 'app.modules/api/sign'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from 'app.store/config/configureStore'
 
 const FormUserSign = () => {
-  const { error } = useSelector((state: RootState) => state.login);
-  const dispatch = useDispatch();
+  const { error } = useSelector((state: RootState) => state.login)
+  const dispatch = useDispatch()
 
   const onFinish = async (value) => {
-    await sign.signin({ ...value }, dispatch);
-  };
+    await sign.signin({ ...value }, dispatch)
+  }
 
   if (error)
     Modal.error({
@@ -25,18 +24,14 @@ const FormUserSign = () => {
           재시도를 해주세요.
         </>
       ),
-    });
+    })
 
   return (
     <StyledWrapper>
       <div className="sign-logo">
         <img src="/images/logo/SPACEMAP_logo.png" className="logo" alt="logo" />
       </div>
-      <Form
-        name="form-login"
-        onFinish={onFinish}
-        initialValues={{ remember: true }}
-      >
+      <Form name="form-login" onFinish={onFinish} initialValues={{ remember: true }}>
         <Form.Item
           name="name"
           rules={[{ required: true, message: '이름을 입력해주세요' }]}
@@ -52,10 +47,7 @@ const FormUserSign = () => {
           <Input placeholder="Id" />
         </Form.Item>
 
-        <Form.Item
-          name="password"
-          rules={[{ required: true, message: '비밀번호를 입력해주세요' }]}
-        >
+        <Form.Item name="password" rules={[{ required: true, message: '비밀번호를 입력해주세요' }]}>
           <Input.Password placeholder="Password" />
         </Form.Item>
 
@@ -72,12 +64,12 @@ const FormUserSign = () => {
         </Form.Item>
       </Form>
     </StyledWrapper>
-  );
-};
+  )
+}
 
-export default FormUserSign;
+export default FormUserSign
 
-const _height = 60;
+const _height = 60
 const StyledWrapper = styled.div`
   .sign-logo {
     display: block;
@@ -138,4 +130,4 @@ const StyledWrapper = styled.div`
     margin-top: 10px;
     color: red;
   }
-`;
+`

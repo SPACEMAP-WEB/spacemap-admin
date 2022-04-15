@@ -1,36 +1,36 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import Link from 'next/link';
-import { Menu } from 'antd';
-import { rootMenu } from '../menu/rootMenu';
-import { fnMenuInit } from '../module/fnMenuInit';
-import SideMenuSub from './SideMenuSub';
-import TinyHeader from '../component/TinyHeader';
+import React, { useEffect, useState } from 'react'
+import styled from 'styled-components'
+import Link from 'next/link'
+import { Menu } from 'antd'
+import { rootMenu } from '../menu/rootMenu'
+import { fnMenuInit } from '../module/fnMenuInit'
+import SideMenuSub from './SideMenuSub'
+import TinyHeader from '../component/TinyHeader'
 
-const { Item, SubMenu } = Menu;
+const { Item, SubMenu } = Menu
 
 const SideMenu = () => {
-  const menuOpen = fnMenuInit();
-  const menuDataset = rootMenu ?? [];
-  const rootKey = menuDataset.map((v) => v.key);
+  const menuOpen = fnMenuInit()
+  const menuDataset = rootMenu ?? []
+  const rootKey = menuDataset.map((v) => v.key)
 
-  const [openKeys, setOpenKeys] = useState(null);
+  const [openKeys, setOpenKeys] = useState(null)
 
   const onOpenChange = (keys) => {
-    const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
+    const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1)
     if (rootKey.indexOf(latestOpenKey) === -1) {
-      setOpenKeys(keys);
+      setOpenKeys(keys)
     } else {
-      setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
+      setOpenKeys(latestOpenKey ? [latestOpenKey] : [])
     }
-  };
+  }
 
   useEffect(() => {
-    const { openKeys } = menuOpen.initSelectKeys();
-    setOpenKeys(openKeys ?? []);
-  }, []);
+    const { openKeys } = menuOpen.initSelectKeys()
+    setOpenKeys(openKeys ?? [])
+  }, [])
 
-  if (!openKeys || !menuDataset.length) return null;
+  if (!openKeys || !menuDataset.length) return null
 
   return (
     <StyledMenu>
@@ -54,7 +54,7 @@ const SideMenu = () => {
               >
                 {item.subMenu.map((sub) => SideMenuSub(sub))}
               </SubMenu>
-            );
+            )
           }
 
           return (
@@ -65,14 +65,14 @@ const SideMenu = () => {
                 </a>
               </Link>
             </Item>
-          );
+          )
         })}
       </Menu>
     </StyledMenu>
-  );
-};
+  )
+}
 
-export default SideMenu;
+export default SideMenu
 
 const StyledMenu = styled.div`
   * {
@@ -112,4 +112,4 @@ const StyledMenu = styled.div`
       margin-left: 6px;
     }
   }
-`;
+`

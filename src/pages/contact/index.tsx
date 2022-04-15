@@ -1,6 +1,6 @@
-import HeaderSubject from 'app.components/Header/HeaderSubject';
-import ScreenContact from 'app.feature/contact/screen/ScreenContact';
-import React from 'react';
+import HeaderSubject from 'app.components/Header/HeaderSubject'
+import ScreenContact from 'app.feature/contact/screen/ScreenContact'
+import React from 'react'
 
 const index = () => {
   return (
@@ -16,7 +16,7 @@ const index = () => {
       />
       <ScreenContact />
     </>
-  );
-};
+  )
+}
 
-export default index;
+export default index

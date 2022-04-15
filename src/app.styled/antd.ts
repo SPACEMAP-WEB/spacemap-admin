@@ -105,4 +105,4 @@ export const initializeAntdStyle = `
     border-radius: 100px;
   }
 }
-`;
+`

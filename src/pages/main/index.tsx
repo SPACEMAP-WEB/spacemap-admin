@@ -1,8 +1,8 @@
-import React from 'react';
-import Main from '../../app.layout/main/Main';
+import React from 'react'
+import Main from '../../app.layout/main/Main'
 
 const PageMain = () => {
-  return <Main />;
-};
+  return <Main />
+}
 
-export default PageMain;
+export default PageMain

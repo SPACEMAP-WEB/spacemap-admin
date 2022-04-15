@@ -1,15 +1,15 @@
-import { rootMenu, indexPathKey } from '../menu/rootMenu';
+import { rootMenu, indexPathKey } from '../menu/rootMenu'
 
 export const fnMenuInit = () => {
   return {
     initSelectKeys() {
-      const pathName = location.pathname;
+      const pathName = location.pathname
 
       if (pathName === '/')
         return {
           selectedKeys: [indexPathKey],
           openKeys: [indexPathKey],
-        };
+        }
 
       const findParentsKey = (arr, pathName) => {
         for (let i = 0; i < arr.length; i++) {
@@ -20,26 +20,26 @@ export const fnMenuInit = () => {
             document.URL.includes(arr[i].as) ||
             arr[i].asPath === pathName
           ) {
-            if (arr[i].path !== '/') return [arr[i].key];
+            if (arr[i].path !== '/') return [arr[i].key]
           } else if (arr[i].subMenu && arr[i].subMenu.length) {
-            const t = findParentsKey(arr[i].subMenu, pathName);
+            const t = findParentsKey(arr[i].subMenu, pathName)
             if (t !== false) {
-              t.push(arr[i].key);
-              return t;
+              t.push(arr[i].key)
+              return t
             }
           }
         }
-        return false;
-      };
+        return false
+      }
 
-      const getMenu = findParentsKey(rootMenu, pathName) || [];
-      const selectedKeys = getMenu[0];
-      getMenu.reverse().pop();
+      const getMenu = findParentsKey(rootMenu, pathName) || []
+      const selectedKeys = getMenu[0]
+      getMenu.reverse().pop()
 
       return {
         selectedKeys,
         openKeys: getMenu,
-      };
-    }
-  };
-};
+      }
+    },
+  }
+}

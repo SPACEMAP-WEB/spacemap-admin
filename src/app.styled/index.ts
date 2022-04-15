@@ -1,8 +1,8 @@
-import 'antd/dist/antd.css';
-import styled, { createGlobalStyle } from 'styled-components';
-import { initializeAntdStyle } from './antd';
-import { resetCSS } from './reset';
-import { color } from './color';
+import 'antd/dist/antd.css'
+import { createGlobalStyle } from 'styled-components'
+import { initializeAntdStyle } from './antd'
+import { resetCSS } from './reset'
+import { color } from './color'
 
 export const GlobalStyle = createGlobalStyle`
   :root {
@@ -60,4 +60,4 @@ export const GlobalStyle = createGlobalStyle`
   .recharts-legend-item { 
     font-size: 12px;   
   }
-`;
+`

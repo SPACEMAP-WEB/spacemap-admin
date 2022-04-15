@@ -1,15 +1,13 @@
-import React from 'react';
-import { Button } from 'antd';
-import { ArrowLeftOutlined } from '@ant-design/icons';
-import styled from 'styled-components';
-import Lottie404 from '../app.components/Loading/Lottie404';
+import React from 'react'
+import { Button } from 'antd'
+import { ArrowLeftOutlined } from '@ant-design/icons'
+import styled from 'styled-components'
 
 const Error = ({ statusCode, ...props }) => {
-  const errorMsg = <>앗! 페이지를 찾을 수 없습니다..</>;
+  const errorMsg = <>앗! 페이지를 찾을 수 없습니다..</>
   return (
     <StyledWrapper id="errPage">
       <div className="__err_text">
-        <Lottie404 />
         <div className="__back">
           <b>{errorMsg}</b>
           <div>
@@ -21,17 +19,17 @@ const Error = ({ statusCode, ...props }) => {
         </div>
       </div>
     </StyledWrapper>
-  );
-};
+  )
+}
 
 Error.getInitialProps = ({ res, err }) => {
-  const statusCode = res ? res.statusCode : err ? err.statusCode : 404;
+  const statusCode = res ? res.statusCode : err ? err.statusCode : 404
   return {
     statusCode,
-  };
-};
+  }
+}
 
-export default Error;
+export default Error
 
 const StyledWrapper = styled.div`
   position: relative;
@@ -85,4 +83,4 @@ const StyledWrapper = styled.div`
       font-weight: 300;
     }
   }
-`;
+`

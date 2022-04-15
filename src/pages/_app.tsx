@@ -1,14 +1,14 @@
-import Head from 'next/head';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { Hydrate, dehydrate } from 'react-query/hydration';
-import { ReactQueryDevtools } from 'react-query/devtools';
-import { GlobalStyle } from '../app.styled';
-import AppWeb from 'app.layout/AppWeb';
-import PageSign from '../pages/sign';
-import { Provider, useDispatch, useSelector } from 'react-redux';
-import { RootState, store } from 'app.store/config/configureStore';
-import { useEffect } from 'react';
-import { requestUser } from 'app.store/loginApp/loginUser';
+import Head from 'next/head'
+import { QueryClient, QueryClientProvider } from 'react-query'
+import { Hydrate, dehydrate } from 'react-query/hydration'
+import { ReactQueryDevtools } from 'react-query/devtools'
+import { GlobalStyle } from '../app.styled'
+import AppWeb from 'app.layout/AppWeb'
+import PageSign from '../pages/sign'
+import { Provider, useDispatch, useSelector } from 'react-redux'
+import { RootState, store } from 'app.store/config/configureStore'
+import { useEffect } from 'react'
+import { requestUser } from 'app.store/loginApp/loginUser'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -21,31 +21,23 @@ const queryClient = new QueryClient({
       cacheTime: 1,
     },
   },
-});
+})
 
 const App = ({ Component, pageProps }) => {
-  const { login, isLoading } = useSelector((state: RootState) => state.login);
-  const dispatch = useDispatch();
+  const { login, isLoading } = useSelector((state: RootState) => state.login)
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(requestUser());
-  }, []);
+    dispatch(requestUser())
+  }, [])
 
-  if (!isLoading) return null;
+  if (!isLoading) return null
 
-  return (
-    <>
-      {login ? (
-        <AppWeb contentsComponent={<Component {...pageProps} />} />
-      ) : (
-        <PageSign />
-      )}
-    </>
-  );
-};
+  return <>{login ? <AppWeb contentsComponent={<Component {...pageProps} />} /> : <PageSign />}</>
+}
 
 const AppContainer = (props) => {
-  const { pageProps } = props;
+  const { pageProps } = props
 
   return (
     <>
@@ -62,18 +54,16 @@ const AppContainer = (props) => {
         </QueryClientProvider>
       </Provider>
     </>
-  );
-};
+  )
+}
 
 AppContainer.getInitialProps = async ({ Component, ctx }) => {
   return {
     pageProps: {
       dehydratedState: dehydrate(queryClient),
-      ...(Component.getInitialProps
-        ? await Component.getInitialProps(ctx)
-        : {}),
+      ...(Component.getInitialProps ? await Component.getInitialProps(ctx) : {}),
     },
-  };
-};
+  }
+}
 
-export default AppContainer;
+export default AppContainer
