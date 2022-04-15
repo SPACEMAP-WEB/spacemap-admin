@@ -17,7 +17,7 @@ const PageSign = () => {
   )
 }
 
-export default PageSign;
+export default PageSign
 
 const StyledWrapper = styled.div`
   position: relative;
