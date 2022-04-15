@@ -22,7 +22,7 @@ export const logoutUser = createAsyncThunk('LOGOUT', async () => {
     const res = await api.POST({ url: API_LOGOUT });
     return res.data;
   } catch (error) {
-    throw new Error(error);
+    throw error;
   }
 });
 
@@ -31,6 +31,6 @@ export const requestUser = createAsyncThunk('AUTH_CHECK', async () => {
     const res = await api.GET(API_GET_TOKENS);
     return res.data;
   } catch (error) {
-    throw new Error(error);
+    throw error.response.data;
   }
 });

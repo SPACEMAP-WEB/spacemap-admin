@@ -32,7 +32,6 @@ const ScreenLNB = () => {
               </span>
             </Link>
           </h1>
-          {/* <SideUserInfo /> */}
         </StyledMenuHeader>
         <SideMenu />
         <SideUserSetting />

@@ -1,4 +1,4 @@
-import { Form, Input, Modal, notification } from 'antd';
+import { Form, Input, message, Modal } from 'antd';
 import api from 'app.modules/api';
 import { API_PW_CHANGE } from 'app.modules/keyFactory';
 import React from 'react';
@@ -15,14 +15,32 @@ const ModalChangePassword = ({ visible, setVisible }) => {
     setVisible(false);
   };
 
-  const passwordChangeMutation = useMutation(async (data) => {
-    const res = await api.PUT({ url: API_PW_CHANGE, data });
-    return res.data.data;
-  });
+  const passwordChangeMutation = useMutation(
+    async (data) => {
+      const res = await api.PUT({ url: API_PW_CHANGE, data });
+      return res;
+    },
+    {
+      onError: (error: any) => {
+        message.error(error.response.data.message, 1);
+      },
+    }
+  );
+
+  const validateForm = (value) => {
+    const { fromPassword, toPassword } = value;
+    return fromPassword !== toPassword;
+  };
+
+  const handlePasswordChange = (value) => {
+    passwordChangeMutation.mutate(value);
+    handleModalNotVisible();
+  };
 
   const handleSubmit = async (value) => {
-    await passwordChangeMutation.mutateAsync(value);
-    handleModalNotVisible();
+    validateForm(value)
+      ? handlePasswordChange(value)
+      : message.error('기존 비밀번호와 새로운 비밀번호가 일치합니다', 1);
   };
 
   return (
@@ -63,7 +81,7 @@ const ModalChangePassword = ({ visible, setVisible }) => {
               },
             ]}
           >
-            <Input />
+            <Input.Password />
           </Item>
           <Item
             name="toPassword"
@@ -76,7 +94,7 @@ const ModalChangePassword = ({ visible, setVisible }) => {
               },
             ]}
           >
-            <Input />
+            <Input.Password />
           </Item>
         </Form>
       </StyledModal>

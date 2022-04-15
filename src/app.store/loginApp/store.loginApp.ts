@@ -33,8 +33,16 @@ const userSlice = createSlice({
     builder.addCase(requestUser.fulfilled, (state) => {
       return { ...state, login: true, isLoading: true, error: false };
     });
-    builder.addCase(requestUser.rejected, (state) => {
-      return { ...state, login: false, isLoading: true, error: false };
+    builder.addCase(requestUser.rejected, (state, action) => {
+      const {
+        error: { message },
+      } = action;
+      return {
+        ...state,
+        login: message == 'TokenExpiredError' ? true : false,
+        isLoading: true,
+        error: false,
+      };
     });
   },
 });
