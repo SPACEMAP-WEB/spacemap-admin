@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import FormUserSign from 'app.layout/sign/FormUserSign';
 
-const Page_Sign = () => {
+const PageSign = () => {
   return (
     <StyledWrapper>
       <div className="login-body">
@@ -17,7 +17,7 @@ const Page_Sign = () => {
   );
 };
 
-export default Page_Sign;
+export default PageSign;
 
 const StyledWrapper = styled.div`
   position: relative;
