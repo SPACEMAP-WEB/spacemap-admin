@@ -1,13 +1,13 @@
-import { RootState } from 'app.store/config/configureStore';
-import React from 'react';
-import { useSelector } from 'react-redux';
-import styled from 'styled-components';
-import ScreenLNB from './lnb/ScreenLNB';
+import { RootState } from 'app.store/config/configureStore'
+import React from 'react'
+import { useSelector } from 'react-redux'
+import styled from 'styled-components'
+import ScreenLNB from './lnb/ScreenLNB'
 
-export const transformValue = 54;
+export const transformValue = 54
 
 const AppWeb = ({ contentsComponent }) => {
-  const { menuOpen } = useSelector((state: RootState) => state.menu);
+  const { menuOpen } = useSelector((state: RootState) => state.menu)
   return (
     <StyledLayout sideMenuVisible={menuOpen}>
       <ScreenLNB />
@@ -28,10 +28,10 @@ const AppWeb = ({ contentsComponent }) => {
         </div>
       </div>
     </StyledLayout>
-  );
-};
+  )
+}
 
-export default AppWeb;
+export default AppWeb
 
 const StyledLayout = styled.div`
   display: flex; // Note: table 스크롤 사용시 주석처리
@@ -71,4 +71,4 @@ const StyledLayout = styled.div`
   .apps-content.full-width-true {
     width: 1400px;
   }
-`;
+`

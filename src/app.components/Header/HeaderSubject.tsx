@@ -1,13 +1,13 @@
-import * as React from 'react';
-import { RightOutlined } from '@ant-design/icons';
-import Link from 'next/link';
-import styled from 'styled-components';
+import * as React from 'react'
+import { RightOutlined } from '@ant-design/icons'
+import Link from 'next/link'
+import styled from 'styled-components'
 
 type Props = {
-  subject: string;
-  desc?: string;
-  navigation?: Array<any>;
-};
+  subject: string
+  desc?: string
+  navigation?: Array<any>
+}
 
 const HeaderSubject: React.FunctionComponent<Props> = ({
   subject,
@@ -33,9 +33,9 @@ const HeaderSubject: React.FunctionComponent<Props> = ({
 
     {desc && <div className="header-desc">{desc}</div>}
   </StyledWrapper>
-);
+)
 
-export default HeaderSubject;
+export default HeaderSubject
 
 const StyledWrapper = styled.div`
   border-bottom: 1px solid #e4e4e4;
@@ -87,4 +87,4 @@ const StyledWrapper = styled.div`
     font-size: 12px;
     padding-left: 3px;
   }
-`;
+`

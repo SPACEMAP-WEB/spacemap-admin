@@ -1,21 +1,21 @@
-import React, { useState } from 'react';
-import { Layout } from 'antd';
-import Link from 'next/link';
-import styled from 'styled-components';
-import SideMenu from './component/SideMenu';
-import SideUserSetting from './component/SideSetting';
-import { DoubleRightOutlined, DoubleLeftOutlined } from '@ant-design/icons';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'app.store/config/configureStore';
-import { setMenuOpen } from 'app.store/menuApp/store.menuApp';
+import React from 'react'
+import { Layout } from 'antd'
+import Link from 'next/link'
+import styled from 'styled-components'
+import SideMenu from './component/SideMenu'
+import SideUserSetting from './component/SideSetting'
+import { DoubleRightOutlined, DoubleLeftOutlined } from '@ant-design/icons'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from 'app.store/config/configureStore'
+import { setMenuOpen } from 'app.store/menuApp/store.menuApp'
 
-export const _menuPadding = 24;
+export const _menuPadding = 24
 
-const { Sider } = Layout;
+const { Sider } = Layout
 
 const ScreenLNB = () => {
-  const { menuOpen } = useSelector((state: RootState) => state.menu);
-  const dispatch = useDispatch();
+  const { menuOpen } = useSelector((state: RootState) => state.menu)
+  const dispatch = useDispatch()
 
   return (
     <StyledLNB menuOpen={menuOpen}>
@@ -37,10 +37,10 @@ const ScreenLNB = () => {
         <SideUserSetting />
       </Sider>
     </StyledLNB>
-  );
-};
+  )
+}
 
-export default ScreenLNB;
+export default ScreenLNB
 
 const StyledLNB = styled.div`
   .ant-layout-sider {
@@ -62,7 +62,7 @@ const StyledLNB = styled.div`
       }
     `}
   }
-`;
+`
 
 const StyledMenuHeader = styled.div`
   position: relative;
@@ -137,13 +137,13 @@ const StyledMenuHeader = styled.div`
       }
     }
   }
-`;
+`
 
 export const TinyHeader = ({ text, padding = '0' }) => (
   <TinyStyled className="tiny-header" style={{ padding }}>
     {text}
   </TinyStyled>
-);
+)
 
 const TinyStyled = styled.div`
   display: block;
@@ -152,4 +152,4 @@ const TinyStyled = styled.div`
   font-weight: 200;
   letter-spacing: 0.5px;
   margin: 0 0 7px;
-`;
+`

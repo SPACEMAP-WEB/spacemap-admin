@@ -19,4 +19,4 @@ export const dataSet = [
     email: 'gracsy@cashwalk.io',
     date: '2021-08-2/14:07:23',
   },
-];
+]

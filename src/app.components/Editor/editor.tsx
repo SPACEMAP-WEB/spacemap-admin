@@ -1,27 +1,23 @@
-import * as React from 'react';
-import { Editor } from '@toast-ui/react-editor';
-import '@toast-ui/editor/dist/toastui-editor.css';
-
-const html = '';
+import * as React from 'react'
+import { Editor } from '@toast-ui/react-editor'
+import '@toast-ui/editor/dist/toastui-editor.css'
 
 const ToastEditor = ({ html, setHtml }) => {
-  const editorRef = React.useRef<Editor>();
+  const editorRef = React.useRef<Editor>()
   const handleChange = () => {
-    if (!editorRef.current) return;
-    setHtml(editorRef.current.getInstance().getHTML());
-  };
+    if (!editorRef.current) return
+    setHtml(editorRef.current.getInstance().getHTML())
+  }
 
   React.useEffect(() => {
     if (editorRef.current) {
-      editorRef.current.getInstance().setHTML(html);
-      editorRef.current.getInstance().removeHook('addImageBlobHook');
-      editorRef.current
-        .getInstance()
-        .addHook('addImageBlobHook', (blob, callback) => {
-          console.log(blob);
-        });
+      editorRef.current.getInstance().setHTML(html)
+      editorRef.current.getInstance().removeHook('addImageBlobHook')
+      editorRef.current.getInstance().addHook('addImageBlobHook', (blob, callback) => {
+        console.log(blob)
+      })
     }
-  }, []);
+  }, [])
 
   return (
     <Editor
@@ -33,7 +29,7 @@ const ToastEditor = ({ html, setHtml }) => {
       ref={editorRef}
       onChange={handleChange}
     />
-  );
-};
+  )
+}
 
-export default ToastEditor;
+export default ToastEditor

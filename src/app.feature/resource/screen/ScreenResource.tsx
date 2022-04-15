@@ -1,27 +1,27 @@
-import { Button, Table } from 'antd';
-import { useRouter } from 'next/router';
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import DataColumns from '../component/DataColumns';
-import RowDeleteMessage from '../component/RowDeleteMessage';
-import { dataSet } from '../component/testDataset';
+import { Button, Table } from 'antd'
+import { useRouter } from 'next/router'
+import React, { useState } from 'react'
+import styled from 'styled-components'
+import DataColumns from '../component/DataColumns'
+import RowDeleteMessage from '../component/RowDeleteMessage'
+import { dataSet } from '../component/testDataset'
 
 const ScreenResource = () => {
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const router = useRouter();
+  const [selectedRowKeys, setSelectedRowKeys] = useState([])
+  const router = useRouter()
 
   const handleCreateClick = () => {
     router.push({
       pathname: router.pathname + '/edit',
-    });
-  };
+    })
+  }
 
   const handleRowClick = (value) => {
     router.push({
       pathname: router.pathname + '/edit',
       query: { title: value.title },
-    });
-  };
+    })
+  }
 
   return (
     <StyledWrapper>
@@ -40,7 +40,7 @@ const ScreenResource = () => {
           bordered
           size="middle"
           onRow={(record) => {
-            return { onClick: () => handleRowClick(record) };
+            return { onClick: () => handleRowClick(record) }
           }}
           columns={DataColumns()}
           dataSource={dataSet}
@@ -56,10 +56,10 @@ const ScreenResource = () => {
         />
       </div>
     </StyledWrapper>
-  );
-};
+  )
+}
 
-export default ScreenResource;
+export default ScreenResource
 
 const StyledWrapper = styled.div`
   .button-group {
@@ -70,4 +70,4 @@ const StyledWrapper = styled.div`
   .ant-table-row {
     cursor: pointer;
   }
-`;
+`

@@ -1,6 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
-import FormUserSign from 'app.layout/sign/FormUserSign';
+import React from 'react'
+import styled from 'styled-components'
+import FormUserSign from 'app.layout/sign/FormUserSign'
 
 const Page_Sign = () => {
   return (
@@ -14,10 +14,10 @@ const Page_Sign = () => {
         </div>
       </div>
     </StyledWrapper>
-  );
-};
+  )
+}
 
-export default Page_Sign;
+export default Page_Sign
 
 const StyledWrapper = styled.div`
   position: relative;
@@ -44,4 +44,4 @@ const StyledWrapper = styled.div`
     color: #797979;
     font-weight: 200;
   }
-`;
+`

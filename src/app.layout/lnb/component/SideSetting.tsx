@@ -1,22 +1,22 @@
-import React, { useState } from 'react';
-import { Button } from 'antd';
-import styled from 'styled-components';
-import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
-import { _menuPadding, TinyHeader } from '../ScreenLNB';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'app.store/config/configureStore';
-import sign from 'app.modules/api/sign';
-import ModalChangePassword from 'app.feature/sign/ModalChangePassword';
+import React, { useState } from 'react'
+import { Button } from 'antd'
+import styled from 'styled-components'
+import { LogoutOutlined, UserOutlined } from '@ant-design/icons'
+import { _menuPadding, TinyHeader } from '../ScreenLNB'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from 'app.store/config/configureStore'
+import sign from 'app.modules/api/sign'
+import ModalChangePassword from 'app.feature/sign/ModalChangePassword'
 
 const SideSetting: React.FC = () => {
-  const [visible, setVisible] = useState(false);
-  const { login } = useSelector((state: RootState) => state.login);
-  const dispatch = useDispatch();
+  const [visible, setVisible] = useState(false)
+  const { login } = useSelector((state: RootState) => state.login)
+  const dispatch = useDispatch()
 
   const logout = async () => {
-    await sign.sessionOut(dispatch);
-    if (!login) location.href = '/';
-  };
+    await sign.sessionOut(dispatch)
+    if (!login) location.href = '/'
+  }
   return (
     <section>
       <StyledWrapper _menuPadding={_menuPadding}>
@@ -34,10 +34,10 @@ const SideSetting: React.FC = () => {
         <ModalChangePassword visible={visible} setVisible={setVisible} />
       </StyledWrapper>
     </section>
-  );
-};
+  )
+}
 
-export default SideSetting;
+export default SideSetting
 
 const StyledWrapper = styled.div`
   position: relative;
@@ -62,4 +62,4 @@ const StyledWrapper = styled.div`
       }
     }
   }
-`;
+`

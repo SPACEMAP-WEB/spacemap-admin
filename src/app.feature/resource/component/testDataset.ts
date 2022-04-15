@@ -23,4 +23,4 @@ export const dataSet = [
     date: '2021-08-2/14:07:23',
     type: 'Documents',
   },
-];
+]

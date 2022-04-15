@@ -1,47 +1,47 @@
-import { Form, Input, message, Modal } from 'antd';
-import api from 'app.modules/api';
-import { API_PW_CHANGE } from 'app.modules/keyFactory';
-import React from 'react';
-import { useMutation } from 'react-query';
-import styled from 'styled-components';
+import { Form, Input, message, Modal } from 'antd'
+import api from 'app.modules/api'
+import { API_PW_CHANGE } from 'app.modules/keyFactory'
+import React from 'react'
+import { useMutation } from 'react-query'
+import styled from 'styled-components'
 
-const { Item } = Form;
+const { Item } = Form
 
 const ModalChangePassword = ({ visible, setVisible }) => {
-  const [form] = Form.useForm();
+  const [form] = Form.useForm()
 
   const handleModalNotVisible = () => {
-    form.resetFields();
-    setVisible(false);
-  };
+    form.resetFields()
+    setVisible(false)
+  }
 
   const passwordChangeMutation = useMutation(
     async (data) => {
-      const res = await api.PUT({ url: API_PW_CHANGE, data });
-      return res;
+      const res = await api.PUT({ url: API_PW_CHANGE, data })
+      return res
     },
     {
       onError: (error: any) => {
-        message.error(error.response.data.message, 1);
+        message.error(error.response.data.message, 1)
       },
     }
-  );
+  )
 
   const validateForm = (value) => {
-    const { fromPassword, toPassword } = value;
-    return fromPassword !== toPassword;
-  };
+    const { fromPassword, toPassword } = value
+    return fromPassword !== toPassword
+  }
 
   const handlePasswordChange = (value) => {
-    passwordChangeMutation.mutate(value);
-    handleModalNotVisible();
-  };
+    passwordChangeMutation.mutate(value)
+    handleModalNotVisible()
+  }
 
   const handleSubmit = async (value) => {
     validateForm(value)
       ? handlePasswordChange(value)
-      : message.error('기존 비밀번호와 새로운 비밀번호가 일치합니다', 1);
-  };
+      : message.error('기존 비밀번호와 새로운 비밀번호가 일치합니다', 1)
+  }
 
   return (
     <StyledWrapper>
@@ -99,16 +99,16 @@ const ModalChangePassword = ({ visible, setVisible }) => {
         </Form>
       </StyledModal>
     </StyledWrapper>
-  );
-};
+  )
+}
 
-export default ModalChangePassword;
+export default ModalChangePassword
 
-const StyledWrapper = styled.div``;
+const StyledWrapper = styled.div``
 
 const StyledModal = styled(Modal)`
   .ant-form-item-label {
     width: 120px !important;
     text-align: left !important;
   }
-`;
+`
