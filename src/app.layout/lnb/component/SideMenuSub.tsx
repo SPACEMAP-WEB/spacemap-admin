@@ -8,7 +8,7 @@ const SideSubMenuComponent: any = (item: any) => {
   if (item.subMenu) {
     return (
       <SubMenu key={item.key} title={item.label} icon={item.icon || false}>
-        {item.subMenu.map((sub) => SideSubMenuComponent(sub))}
+        {item.subMenu.map((sub: any) => SideSubMenuComponent(sub))}
       </SubMenu>
     )
   }

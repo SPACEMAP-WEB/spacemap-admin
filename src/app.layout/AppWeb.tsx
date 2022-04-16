@@ -6,7 +6,7 @@ import ScreenLNB from './lnb/ScreenLNB'
 
 export const transformValue = 54
 
-const AppWeb = ({ contentsComponent }) => {
+const AppWeb = ({ contentsComponent }: { contentsComponent: JSX.Element }) => {
   const { menuOpen } = useSelector((state: RootState) => state.menu)
   return (
     <StyledLayout sideMenuVisible={menuOpen}>
@@ -33,7 +33,7 @@ const AppWeb = ({ contentsComponent }) => {
 
 export default AppWeb
 
-const StyledLayout = styled.div`
+const StyledLayout = styled.div<{ sideMenuVisible: boolean }>`
   display: flex; // Note: table 스크롤 사용시 주석처리
   #appSection {
     position: relative;

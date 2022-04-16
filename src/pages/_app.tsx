@@ -7,8 +7,10 @@ import AppWeb from 'app.layout/AppWeb'
 import PageSign from '../pages/sign'
 import { Provider, useDispatch, useSelector } from 'react-redux'
 import { RootState, store } from 'app.store/config/configureStore'
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { requestUser } from 'app.store/loginApp/loginUser'
+import { AppContext, AppInitialProps, AppProps } from 'next/app'
+import { NextComponentType } from 'next'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -23,7 +25,7 @@ const queryClient = new QueryClient({
   },
 })
 
-const App = ({ Component, pageProps }) => {
+const App = ({ Component, pageProps }: AppProps) => {
   const { login, isLoading } = useSelector((state: RootState) => state.login)
   const dispatch = useDispatch()
 
@@ -36,7 +38,9 @@ const App = ({ Component, pageProps }) => {
   return <>{login ? <AppWeb contentsComponent={<Component {...pageProps} />} /> : <PageSign />}</>
 }
 
-const AppContainer = (props) => {
+const AppContainer: NextComponentType<AppContext, AppInitialProps, AppProps> = (
+  props: AppProps
+) => {
   const { pageProps } = props
 
   return (
@@ -57,7 +61,7 @@ const AppContainer = (props) => {
   )
 }
 
-AppContainer.getInitialProps = async ({ Component, ctx }) => {
+AppContainer.getInitialProps = async ({ Component, ctx }: AppContext) => {
   return {
     pageProps: {
       dehydratedState: dehydrate(queryClient),

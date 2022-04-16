@@ -4,11 +4,12 @@ import { API_GET_ACCESSTOKEN, API_GET_TOKENS, API_LOGIN } from 'app.modules/keyF
 
 axios.defaults.withCredentials = true
 
+type ApiMethods = 'GET' | 'PUT' | 'PATCH' | 'DELETE' | 'POST'
+
 type ApiData = {
   headers?: object
   url: string
-  method: 'GET' | 'PUT' | 'PATCH' | 'DELETE' | 'POST'
-  data?: object | null
+  method?: ApiMethods
 }
 
 class API {
@@ -19,7 +20,7 @@ class API {
     this.requestApi = axios.create({ baseURL: process.env.SPACEMAP_ADMIN_API_URI })
   }
 
-  async Fetch({ headers = {}, url = '', method, data = null }: ApiData) {
+  async Fetch<T>({ headers = {}, url = '', method, data = null }: ApiData & { data?: T | null }) {
     return await this.requestApi({
       method,
       data,
@@ -30,10 +31,10 @@ class API {
     })
   }
 
-  async CALL({ headers = {}, url = '', method, data = null }: ApiData) {
+  async CALL<T>({ headers = {}, url = '', method, data = null }: ApiData & { data?: T | null }) {
     const config = { headers, url, method, data }
     try {
-      const response = this.Fetch(config)
+      const response = await this.Fetch(config)
 
       return response
     } catch (error) {
@@ -48,9 +49,8 @@ class API {
       }
 
       if (status === 401 && message === 'TokenExpiredError') {
-        this.Fetch({ ...config, method: 'GET', url: API_GET_ACCESSTOKEN })
-
-        const response = this.Fetch({ headers, url, method, data })
+        await this.Fetch({ ...config, method: 'GET', url: API_GET_ACCESSTOKEN })
+        const response = await this.Fetch({ headers, url, method, data })
         return response
       }
       throw error
@@ -64,7 +64,7 @@ class API {
     })
   }
 
-  POST(params: ApiData) {
+  POST<T>(params: ApiData & { data?: T | null }) {
     return this.CALL({
       ...params,
       method: 'POST',
@@ -72,7 +72,7 @@ class API {
     })
   }
 
-  PUT(params: ApiData) {
+  PUT<T>(params: ApiData & { data?: T | null }) {
     return this.CALL({
       ...params,
       method: 'PUT',
@@ -80,7 +80,7 @@ class API {
     })
   }
 
-  DELETE(params: ApiData) {
+  DELETE<T>(params: ApiData & { data?: T | null }) {
     return this.CALL({
       ...params,
       method: 'DELETE',

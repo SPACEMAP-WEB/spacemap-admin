@@ -1,9 +1,10 @@
 import { ContactsOutlined, FormOutlined, UserOutlined } from '@ant-design/icons'
 import React from 'react'
+import { TypeMenu } from '../module/fnMenuInit'
 
 export const indexPathKey = 'dashboard'
 
-export const rootMenu = [
+export const rootMenu: TypeMenu[] = [
   {
     label: 'Contact',
     icon: <ContactsOutlined />,
