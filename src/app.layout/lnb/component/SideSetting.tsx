@@ -3,18 +3,18 @@ import { Button } from 'antd'
 import styled from 'styled-components'
 import { LogoutOutlined, UserOutlined } from '@ant-design/icons'
 import { _menuPadding, TinyHeader } from '../ScreenLNB'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { RootState } from 'app.store/config/configureStore'
-import sign from 'app.modules/api/sign'
 import ModalChangePassword from 'app.feature/sign/ModalChangePassword'
+import useSign from 'app.modules/api/sign'
 
 const SideSetting: React.FC = () => {
   const [visible, setVisible] = useState(false)
   const { login } = useSelector((state: RootState) => state.login)
-  const dispatch = useDispatch()
+  const { sessionOut } = useSign()
 
   const logout = async () => {
-    await sign.sessionOut(dispatch)
+    sessionOut()
     if (!login) location.href = '/'
   }
   return (
@@ -39,7 +39,7 @@ const SideSetting: React.FC = () => {
 
 export default SideSetting
 
-const StyledWrapper = styled.div`
+const StyledWrapper = styled.div<{ _menuPadding: number }>`
   position: relative;
   text-align: left;
   margin: 0 0 7px;

@@ -2,16 +2,17 @@ import React from 'react'
 import { InfoCircleOutlined } from '@ant-design/icons'
 import { Form, Input, Button, Modal } from 'antd'
 import styled from 'styled-components'
-import sign from 'app.modules/api/sign'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { RootState } from 'app.store/config/configureStore'
+import { Info } from 'app.modules/types/loginType'
+import useSign from 'app.modules/api/sign'
 
 const FormUserSign = () => {
   const { error } = useSelector((state: RootState) => state.login)
-  const dispatch = useDispatch()
+  const { signIn } = useSign()
 
-  const onFinish = async (value) => {
-    await sign.signin({ ...value }, dispatch)
+  const onFinish = async (value: Info) => {
+    signIn(value)
   }
 
   if (error)

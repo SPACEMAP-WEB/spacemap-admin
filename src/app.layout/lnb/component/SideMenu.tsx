@@ -14,10 +14,10 @@ const SideMenu = () => {
   const menuDataset = rootMenu ?? []
   const rootKey = menuDataset.map((v) => v.key)
 
-  const [openKeys, setOpenKeys] = useState(null)
+  const [openKeys, setOpenKeys] = useState<any>(null)
 
-  const onOpenChange = (keys) => {
-    const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1)
+  const onOpenChange = (keys: string[]) => {
+    const latestOpenKey = keys.find((key: string) => openKeys?.indexOf(key) === -1)
     if (rootKey.indexOf(latestOpenKey) === -1) {
       setOpenKeys(keys)
     } else {
@@ -43,7 +43,7 @@ const SideMenu = () => {
         openKeys={openKeys}
         selectedKeys={[location.pathname]}
       >
-        {menuDataset.map((item: any) => {
+        {menuDataset.map((item) => {
           if (item.subMenu) {
             return (
               <SubMenu
@@ -59,7 +59,7 @@ const SideMenu = () => {
 
           return (
             <Item key={item.key} className={item.className || ''}>
-              <Link href={item.path}>
+              <Link href={item.path as string}>
                 <a>
                   {item.icon || null} <span>{item.label}</span>
                 </a>

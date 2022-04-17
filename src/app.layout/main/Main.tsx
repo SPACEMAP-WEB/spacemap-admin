@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from 'react'
+import styled from 'styled-components'
 
 const Main = () => {
   return (
@@ -16,10 +16,10 @@ const Main = () => {
         <h2>원하시는 업무를 선택해주세요.</h2>
       </div>
     </StyledWrapper>
-  );
-};
+  )
+}
 
-export default Main;
+export default Main
 
 export const StyledWrapper = styled.div`
   display: flex;
@@ -65,4 +65,4 @@ export const StyledWrapper = styled.div`
       color: #fff;
     }
   }
-`;
+`
