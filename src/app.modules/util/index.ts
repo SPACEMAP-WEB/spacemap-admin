@@ -1,13 +1,13 @@
-export const qs = {
-  stringURL: (url) => {
-    return '?'
-  },
+type UriObject = {
+  [key: string]: number | string | boolean
+}
 
-  convertQueryString: (data: object | any) => {
+export const qs = {
+  convertQueryString: (data: UriObject) => {
     if (!Object.keys(data).length) return ''
     const pairs = []
     for (let prop in data) {
-      if (data.hasOwnPropery(prop)) {
+      if (Object.prototype.hasOwnProperty.call(data, prop)) {
         let k = prop
         let v = data[prop]
         pairs.push(`${k}=${v}`)
@@ -21,7 +21,7 @@ export const qs = {
     return searchString
       .substring(1)
       .split('&')
-      .reduce((result, next) => {
+      .reduce((result: { [key: string]: string }, next: string) => {
         let pair = next.split('=')
         result[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1])
         return result
@@ -29,7 +29,7 @@ export const qs = {
   },
 }
 
-export const dateSort = (arr, orderBy = 'asc') => {
+export const dateSort = <T extends { date: string | number }>(arr: T[], orderBy = 'asc') => {
   return arr.sort((a, b) => {
     let dateA = new Date(a.date).getTime()
     let dateB = new Date(b.date).getTime()
@@ -40,12 +40,7 @@ export const dateSort = (arr, orderBy = 'asc') => {
   })
 }
 
-export const regNumber = (param) => {
-  if (param === undefined || param === null) return false
-  return param.toString().replace(/[^0-9]/g, '')
-}
-
-export const objectToQueryString = (data: object | any) => {
+export const objectToQueryString = (data: UriObject) => {
   if (!Object.keys(data).length) return ''
   const pairs = []
   for (let prop in data) {
@@ -58,7 +53,7 @@ export const objectToQueryString = (data: object | any) => {
   return pairs.join('&')
 }
 
-export const objectToURL = (data) => {
+export const objectToURL = (data: UriObject) => {
   if (Object.keys(data).length > 0) {
     return '?' + objectToQueryString(data)
   }

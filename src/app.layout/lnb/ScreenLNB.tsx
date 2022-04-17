@@ -42,7 +42,7 @@ const ScreenLNB = () => {
 
 export default ScreenLNB
 
-const StyledLNB = styled.div`
+const StyledLNB = styled.div<{ menuOpen: boolean }>`
   .ant-layout-sider {
     position: fixed;
     overflow: auto;
@@ -74,11 +74,6 @@ const StyledMenuHeader = styled.div`
   img {
     width: 80px;
     margin: 4px 0 10px;
-    ${(props) =>
-      props.collapsed &&
-      `      
-        margin: 4px 0 10px -3px;
-    `}
   }
 
   h1 {
@@ -119,13 +114,6 @@ const StyledMenuHeader = styled.div`
     color: #aaa;
     cursor: pointer;
     z-index: 10;
-    ${(props) =>
-      props.collapsed &&
-      `      
-      top: 40px;
-      right: 30px;
-      opacity: 1 !important;
-    `}
   }
 
   &:hover {
@@ -139,7 +127,7 @@ const StyledMenuHeader = styled.div`
   }
 `
 
-export const TinyHeader = ({ text, padding = '0' }) => (
+export const TinyHeader = ({ text, padding = '0' }: { text: string; padding: string }) => (
   <TinyStyled className="tiny-header" style={{ padding }}>
     {text}
   </TinyStyled>

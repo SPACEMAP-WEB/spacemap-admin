@@ -1,14 +1,12 @@
+import { Info } from 'app.modules/types/loginType'
+import { AppDispatch } from 'app.store/config/configureStore'
 import { loginUser, logoutUser } from 'app.store/loginApp/loginUser'
+import { useDispatch } from 'react-redux'
 
-// FIXME: value is never read
-// const config = {
-//   headers: {
-//     'content-type': 'application/json',
-//   },
-// }
+const useSign = () => {
+  const dispatch = useDispatch<AppDispatch>()
 
-class Sign {
-  async signin(info, dispatch) {
+  const signIn = async (info: Info) => {
     try {
       dispatch(loginUser(info))
     } catch (error) {
@@ -16,13 +14,15 @@ class Sign {
     }
   }
 
-  async sessionOut(dispatch) {
+  const sessionOut = async () => {
     try {
       dispatch(logoutUser())
     } catch (error) {
       throw new Error()
     }
   }
+
+  return { signIn, sessionOut }
 }
 
-export default new Sign()
+export default useSign

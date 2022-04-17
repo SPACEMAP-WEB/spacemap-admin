@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const TinyHeader = ({ text, padding = '0' }) => (
+const TinyHeader = ({ text, padding = '0' }: { text: string; padding: string }) => (
   <TinyStyled className="tiny-header" style={{ padding }}>
     {text}
   </TinyStyled>
