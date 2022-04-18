@@ -58,6 +58,7 @@ class API {
   }
 
   GET(urlData: string) {
+    console.log(urlData)
     return this.CALL({
       method: 'GET',
       url: urlData,
