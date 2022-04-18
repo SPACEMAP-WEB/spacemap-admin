@@ -8,7 +8,7 @@ import Error from 'app.components/Error/Error'
 import dynamic from 'next/dynamic'
 import { UploadChangeParam } from 'antd/lib/upload'
 import { UploadFile } from 'antd/lib/upload/interface'
-import { ContentDataType, UploadFileType } from 'app.feature/types/resourceType'
+import { ContentDataType, UploadFileType } from 'app.feature/resource/types/resourceType'
 import { createResoucre } from 'app.modules/api/resource'
 
 const ToastEditor = dynamic(() => import('app.components/Editor/editor'), {
