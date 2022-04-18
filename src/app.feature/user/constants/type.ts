@@ -1,5 +1,5 @@
 export type TUser = {
-  index?: number
+  index: number
   _id: string
   userType: string
   password: string

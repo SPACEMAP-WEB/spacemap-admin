@@ -1,8 +1,12 @@
 export const initializeAntdStyle = `
 .ant-table-thead > tr > th {
-  font-size: 13px;
+  font-size: 16px;
+  font-weight:bold;
   background: #e6e8ec !important;
   border-bottom-color: #ddd !important;
+}
+.ant-table-cell{
+  font-size:16px;
 }
 
 .ant-table.ant-table-middle .ant-table-thead 
