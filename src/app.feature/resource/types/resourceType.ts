@@ -25,3 +25,14 @@ export type ContentDataType = {
   html: string
   markdown: string
 }
+
+export type ResourceDataType = {
+  _id: string
+  boardType: string
+  title: string
+  content: string
+  imagesLocations: string[]
+  filesLocations: []
+  createdAt: string
+  __v: number
+}

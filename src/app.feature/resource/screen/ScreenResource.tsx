@@ -1,14 +1,17 @@
 import { Button, Table } from 'antd'
 import { useRouter } from 'next/router'
+import Error from 'app.components/Error/Error'
+import LottieLoadingTable from 'app.components/Loading/LottieLoadingTable'
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import DataColumns from '../component/DataColumns'
 import RowDeleteMessage from '../component/RowDeleteMessage'
-import { dataSet } from '../component/testDataset'
+import { useQueryGetResource } from '../query/useQueryResource'
 
 type RecordType = {
+  id: number
   title: string
-  id: string
+  index: string
   date: string
   type: string
 }
@@ -16,6 +19,22 @@ type RecordType = {
 const ScreenResource = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
   const router = useRouter()
+  const { data, isLoading, isError, isSuccess } = useQueryGetResource()
+  let dataSet: RecordType[] = []
+
+  if (isError) return <Error />
+  if (isLoading) return <LottieLoadingTable />
+  if (isSuccess) {
+    dataSet = data.map<RecordType>((item, id) => {
+      return {
+        title: item.title,
+        index: item._id,
+        date: item.createdAt,
+        type: item.boardType,
+        id: id + 1,
+      }
+    })
+  }
 
   const handleCreateClick = () => {
     router.push({

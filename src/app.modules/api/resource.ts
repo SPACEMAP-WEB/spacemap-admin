@@ -18,15 +18,6 @@ export const uploadImage = async (blob: File) => {
   }
 }
 
-export const getResource = async () => {
-  try {
-    const response = await api.GET(API_RESOURCE)
-    console.log(response)
-  } catch {
-    console.log('error')
-  }
-}
-
 export const createResoucre = async (formData: FormData) => {
   try {
     const response = await api.POST({
