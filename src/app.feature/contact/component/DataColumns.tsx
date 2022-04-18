@@ -20,7 +20,7 @@ const DataColumns = () => [
     title: 'Email',
     key: 'email',
     dataIndex: 'email',
-    width: '15%',
+    width: '20%',
   },
   {
     title: 'Message',
