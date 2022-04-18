@@ -21,13 +21,14 @@ const ScreenContact = () => {
         <Table
           className="table"
           bordered
-          size="large"
+          size="middle"
           columns={DataColumns()}
           dataSource={data}
           pagination={{
             pageSize: 20,
             total: data?.length,
           }}
+          rowKey={(row) => row._id}
         />
       </div>
     </StyledWrapper>
