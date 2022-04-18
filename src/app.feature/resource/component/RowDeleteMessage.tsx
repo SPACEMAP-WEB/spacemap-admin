@@ -2,7 +2,12 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Button, Alert } from 'antd'
 
-const RowDeleteMessage = ({ selectedRowKeys, setSelectedRowKeys }) => {
+type DeleteMessageProps = {
+  selectedRowKeys: React.Key[]
+  setSelectedRowKeys: React.Dispatch<React.SetStateAction<React.Key[]>>
+}
+
+const RowDeleteMessage = ({ selectedRowKeys, setSelectedRowKeys }: DeleteMessageProps) => {
   const [isChecked, setIsChecked] = useState(false)
   const handleDeletePress = async () => {
     setSelectedRowKeys([])

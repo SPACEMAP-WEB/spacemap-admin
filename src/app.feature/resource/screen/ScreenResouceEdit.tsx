@@ -6,6 +6,10 @@ import { useRouter } from 'next/router'
 import LottieLoadingTable from 'app.components/Loading/LottieLoadingTable'
 import Error from 'app.components/Error/Error'
 import dynamic from 'next/dynamic'
+import { UploadChangeParam } from 'antd/lib/upload'
+import { UploadFile } from 'antd/lib/upload/interface'
+import { ContentDataType, UploadFileType } from 'app.feature/resource/types/resourceType'
+import { createResoucre } from 'app.modules/api/resource'
 
 const ToastEditor = dynamic(() => import('app.components/Editor/editor'), {
   ssr: false,
@@ -16,35 +20,10 @@ const { Dragger } = Upload
 
 const ScreenResourceEdit = ({}) => {
   const router = useRouter()
-  const key = router.query.key
   const [form] = Form.useForm()
-  const [isChanged, setIsChanged] = useState(false)
-  const [fileList, setFileList] = useState([])
-  const [html, setHtml] = useState<string>('')
-
-  const handleFinishFailed = () => {
-    message.error('Save failed!')
-  }
-
-  const handleValuesChange = (value, values) => {
-    let isChanged =
-      key && Object.keys(values).filter((key) => values[key] !== initValues[key]).length > 0
-    if (!key) isChanged = !!values.name
-    setIsChanged(isChanged)
-  }
-
-  const handleFinish = (values) => {
-    console.log(html)
-    console.log(values)
-  }
-
-  const handleBackPress = () => {
-    router.back()
-  }
-
-  const handleFileChange = ({ fileList }) => {
-    setFileList(fileList)
-  }
+  const [isSaveButtonActive, setIsSaveButtonActive] = useState<boolean>(false)
+  const [fileList, setFileList] = useState<UploadFile[]>([])
+  const [contentData, setContentData] = useState<ContentDataType>({ html: '', markdown: '' })
 
   const normFile = (e: any) => {
     if (Array.isArray(e)) {
@@ -53,7 +32,60 @@ const ScreenResourceEdit = ({}) => {
     return e && e.fileList
   }
 
-  const initValues = {}
+  const handleFinishFailed = () => {
+    message.error('Save failed!')
+  }
+
+  const handleValuesChange = (
+    data:
+      | Record<'type' | 'name' | 'contents', string>
+      | Record<'file', UploadFileType>
+      | Record<'imagesLocations', string[]>
+  ) => {
+    form.setFieldsValue(data)
+    const formValuesList = Object.values(form.getFieldsValue(true))
+    const isSomeValueNull = formValuesList.includes(null)
+    setIsSaveButtonActive(!isSomeValueNull)
+  }
+
+  const handleEditorBlur = () => {
+    form.setFieldsValue({ contents: contentData.html })
+  }
+
+  function getImages(html: string) {
+    const imgRex = /<img.*?src="(.*?)"[^>]+>/g
+    const images = []
+    let img
+    while ((img = imgRex.exec(html))) {
+      images.push(img[1])
+    }
+    return images
+  }
+
+  const handleFinish = (values: any) => {
+    const imagesLocations = getImages(contentData.html)
+    let formData = new FormData()
+    formData.append('boardType', values.type)
+    formData.append('title', values.name)
+    formData.append('content', values.contents)
+    formData.append('imagesLocations', JSON.stringify(imagesLocations))
+    formData.append('files', values.files)
+    try {
+      createResoucre(formData).then((response) => {
+        router.back()
+      })
+    } catch {
+      console.log('error')
+    }
+  }
+
+  const handleBackPress = () => {
+    router.back()
+  }
+
+  const handleFileChange = (info: UploadChangeParam<UploadFile<any>>) => {
+    setFileList(info.fileList)
+  }
 
   if (false) return <Error />
   if (false) return <LottieLoadingTable />
@@ -66,13 +98,13 @@ const ScreenResourceEdit = ({}) => {
         onFinish={handleFinish}
         onFinishFailed={handleFinishFailed}
         onValuesChange={handleValuesChange}
-        initialValues={initValues}
         className="form-container"
       >
         <div className="input-group">
           <Form.Item
             name="type"
             label="Type"
+            initialValue={null}
             rules={[
               {
                 type: 'string',
@@ -91,6 +123,7 @@ const ScreenResourceEdit = ({}) => {
           <Form.Item
             name="name"
             label="Name"
+            initialValue={null}
             rules={[
               {
                 type: 'string',
@@ -100,8 +133,12 @@ const ScreenResourceEdit = ({}) => {
           >
             <Input placeholder="Name" />
           </Form.Item>
-          <Form.Item name="contents" label="Contents">
-            <ToastEditor html={html} setHtml={setHtml} />
+          <Form.Item name="contents" label="Contents" initialValue={contentData.html}>
+            <ToastEditor
+              contentData={contentData}
+              setContentData={setContentData}
+              onBlur={handleEditorBlur}
+            />
           </Form.Item>
           <Form.Item name="files" label="Files" getValueProps={normFile} initialValue={fileList}>
             <Dragger onChange={handleFileChange}>
@@ -117,10 +154,10 @@ const ScreenResourceEdit = ({}) => {
           </Form.Item>
         </div>
         <div className="button-group">
-          <Button type="primary" htmlType="submit" disabled={!isChanged}>
+          <Button type="primary" htmlType="submit">
             Save
           </Button>
-          <Button htmlType="button" onClick={handleBackPress}>
+          <Button htmlType="button" onClick={handleBackPress} disabled={!isSaveButtonActive}>
             Back
           </Button>
         </div>

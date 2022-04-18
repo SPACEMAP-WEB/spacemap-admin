@@ -11,7 +11,10 @@ interface user {
 
 export const loginUser = createAsyncThunk('LOGIN', async (data: user) => {
   try {
-    const res = await api.POST<user>({ url: API_LOGIN, data })
+    const res = await api.POST<user>({
+      url: API_LOGIN,
+      data,
+    })
     return res.data
   } catch (error) {
     throw error

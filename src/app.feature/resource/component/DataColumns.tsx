@@ -3,7 +3,7 @@ const DataColumns: any = () => [
     title: 'Index',
     key: 'index',
     align: 'center',
-    render: (value, item, index) => index + 1,
+    render: (index: number) => index + 1,
     width: '5%',
   },
   {

@@ -4,6 +4,9 @@ export const API_PW_CHANGE = '/password'
 export const API_GET_TOKENS = '/tokens'
 export const API_GET_ACCESSTOKEN = '/accesstoken'
 
+export const API_POST_RESOURCE_IMAGE = '/resource-file/'
+export const API_RESOURCE = '/resource/'
+
 // contact
 export const API_GET_CONTACTS = '/contacts'
 export const API_GET_DETAIL_CONTACT = '/contact'
