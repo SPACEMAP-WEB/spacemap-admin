@@ -1,28 +1,39 @@
-import { Table } from 'antd';
-import React from 'react';
-import styled from 'styled-components';
-import DataColumns from '../component/DataColumns';
-import { dataSet } from '../component/testDataSet';
+import { Table } from 'antd'
+import Error from 'app.components/Error/Error'
+import LottieLoadingTable from 'app.components/Loading/LottieLoadingTable'
+import React from 'react'
+import styled from 'styled-components'
+import DataColumns from '../component/DataColumns'
+import { useQueryGetContacts } from '../query/useQueryContact'
 
 const ScreenContact = () => {
+  const { data, isLoading, isError, isSuccess } = useQueryGetContacts()
+
+  if (isError) return <Error />
+  if (isLoading) return <LottieLoadingTable />
+  if (isSuccess) {
+    data.map((contact, idx) => (contact.index = idx + 1))
+  }
+
   return (
     <StyledWrapper>
       <div>
         <Table
           className="table"
           bordered
-          size="middle"
+          size="large"
           columns={DataColumns()}
-          dataSource={dataSet}
+          dataSource={data}
           pagination={{
-            pageSize: 10,
+            pageSize: 20,
+            total: data?.length,
           }}
         />
       </div>
     </StyledWrapper>
-  );
-};
+  )
+}
 
-export default ScreenContact;
+export default ScreenContact
 
-const StyledWrapper = styled.div``;
+const StyledWrapper = styled.div``

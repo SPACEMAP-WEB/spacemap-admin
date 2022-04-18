@@ -1,10 +1,12 @@
-const DataColumns: any = () => [
+import { TUser } from '../constants/type'
+
+const DataColumns = () => [
   {
     title: 'Index',
     key: 'index',
-    align: 'center',
-    render: (value, item, index) => index + 1,
+    align: 'center' as const,
     width: '5%',
+    sorter: (a: TUser, b: TUser) => (a.index as number) - (b.index as number),
   },
   {
     title: 'UserName',
@@ -17,7 +19,12 @@ const DataColumns: any = () => [
     key: 'email',
     dataIndex: 'email',
   },
-  { title: 'Date', key: 'date', dataIndex: 'date', width: '10%' },
+  {
+    title: 'Date',
+    key: 'date',
+    dataIndex: 'date',
+    width: '10%',
+  },
 ]
 
 export default DataColumns
