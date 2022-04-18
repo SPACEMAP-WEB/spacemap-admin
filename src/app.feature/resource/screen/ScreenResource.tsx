@@ -6,8 +6,15 @@ import DataColumns from '../component/DataColumns'
 import RowDeleteMessage from '../component/RowDeleteMessage'
 import { dataSet } from '../component/testDataset'
 
+type RecordType = {
+  title: string
+  id: string
+  date: string
+  type: string
+}
+
 const ScreenResource = () => {
-  const [selectedRowKeys, setSelectedRowKeys] = useState([])
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
   const router = useRouter()
 
   const handleCreateClick = () => {
@@ -16,7 +23,7 @@ const ScreenResource = () => {
     })
   }
 
-  const handleRowClick = (value) => {
+  const handleRowClick = (value: RecordType) => {
     router.push({
       pathname: router.pathname + '/edit',
       query: { title: value.title },
