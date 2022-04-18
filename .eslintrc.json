@@ -47,7 +47,8 @@
     ],
     "indent": "off",
     "prefer-const": "off",
-    "semi": ["error", "never"]
+    "semi": ["error", "never"],
+    "@typescript-eslint/no-var-requires": "off"
   },
   "globals": {
     "React": "writable"
