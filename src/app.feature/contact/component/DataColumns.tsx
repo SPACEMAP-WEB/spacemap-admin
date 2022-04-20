@@ -1,14 +1,15 @@
 import RowDetailShow from 'app.components/Table/RowDetailShow'
+import { ColumnsType } from 'rc-table/lib/interface'
 import { TContact } from '../constants/type'
 
-const DataColumns = () => [
+const DataColumns = (): ColumnsType<TContact> => [
   {
     title: 'Index',
     key: 'index',
     dataIndex: 'index',
-    align: 'center' as const,
+    align: 'center',
     width: '5%',
-    sorter: (a: TContact, b: TContact) => (a.index as number) - (b.index as number),
+    // sorter: (a: TContact, b: TContact) => a.index - b.index,
   },
   {
     title: 'Subject',
