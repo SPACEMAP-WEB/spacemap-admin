@@ -1,5 +1,5 @@
 export interface TContact {
-  index?: number
+  index: number
   _id: string
   name: string
   email: string

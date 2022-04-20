@@ -1,8 +1,12 @@
 export const initializeAntdStyle = `
 .ant-table-thead > tr > th {
-  font-size: 13px;
+  font-size: 16px;
+  font-weight:bold;
   background: #e6e8ec !important;
   border-bottom-color: #ddd !important;
+}
+.ant-table-cell{
+  font-size:16px;
 }
 
 .ant-table.ant-table-middle .ant-table-thead 
@@ -14,6 +18,10 @@ export const initializeAntdStyle = `
 .ant-table.ant-table-middle tfoot > tr > th, 
 .ant-table.ant-table-middle tfoot > tr > td {
   padding: 6px;
+}
+
+.ant-table.ant-table-bordered > .ant-table-container > .ant-table-content > table > thead > tr > th, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-header > table > thead > tr > th, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-body > table > thead > tr > th, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-summary > table > thead > tr > th, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-content > table > tbody > tr > td, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-header > table > tbody > tr > td, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-body > table > tbody > tr > td, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-summary > table > tbody > tr > td, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-content > table > tfoot > tr > th, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-header > table > tfoot > tr > th, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-body > table > tfoot > tr > th, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-summary > table > tfoot > tr > th, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-content > table > tfoot > tr > td, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-header > table > tfoot > tr > td, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-body > table > tfoot > tr > td, .ant-table.ant-table-bordered > .ant-table-container > .ant-table-summary > table > tfoot > tr > td {
+  border:2px solid #f0f0f0;
 }
 
 .custom-form-type1 .ant-form-item {
