@@ -45,7 +45,7 @@ const ScreenResource = () => {
   const handleRowClick = (value: RecordType) => {
     router.push({
       pathname: router.pathname + '/edit',
-      query: { title: value.title },
+      query: { id: value.index },
     })
   }
 

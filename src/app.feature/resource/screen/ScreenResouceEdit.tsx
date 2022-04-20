@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Form, message, Button, Input, Select, Upload } from 'antd'
 import { InboxOutlined } from '@ant-design/icons'
@@ -10,6 +10,7 @@ import { UploadChangeParam } from 'antd/lib/upload'
 import { UploadFile } from 'antd/lib/upload/interface'
 import { ContentDataType, UploadFileType } from 'app.feature/resource/types/resourceType'
 import { createResoucre } from 'app.modules/api/resource'
+import { useQueryGetResourceDetail } from '../query/useQueryResource'
 
 const ToastEditor = dynamic(() => import('app.components/Editor/editor'), {
   ssr: false,
@@ -18,12 +19,27 @@ const ToastEditor = dynamic(() => import('app.components/Editor/editor'), {
 const { Option } = Select
 const { Dragger } = Upload
 
-const ScreenResourceEdit = ({}) => {
+const ScreenResourceEdit = () => {
   const router = useRouter()
   const [form] = Form.useForm()
   const [isSaveButtonActive, setIsSaveButtonActive] = useState<boolean>(false)
   const [fileList, setFileList] = useState<UploadFile[]>([])
   const [contentData, setContentData] = useState<ContentDataType>({ html: '', markdown: '' })
+
+  let data
+  const response = router.query.id && useQueryGetResourceDetail(router.query.id as string)
+
+  useEffect(() => {
+    if (response) {
+      data = response.data
+      form.setFieldsValue({
+        type: data?.boardType,
+        name: data?.title,
+        content: data?.content,
+        files: data?.filesLocations,
+      })
+    }
+  })
 
   const normFile = (e: any) => {
     if (Array.isArray(e)) {
