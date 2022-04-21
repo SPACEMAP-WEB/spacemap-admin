@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosInstance } from 'axios'
+import axios, { AxiosError, AxiosInstance, AxiosRequestHeaders, AxiosResponse } from 'axios'
 import { notification } from 'antd'
 import { API_GET_ACCESSTOKEN, API_GET_TOKENS, API_LOGIN } from 'app.modules/keyFactory'
 
@@ -7,7 +7,7 @@ axios.defaults.withCredentials = true
 type ApiMethods = 'GET' | 'PUT' | 'PATCH' | 'DELETE' | 'POST'
 
 type ApiData = {
-  headers?: object
+  headers?: AxiosRequestHeaders
   url: string
   method?: ApiMethods
 }
@@ -31,10 +31,10 @@ class API {
     })
   }
 
-  async CALL<T>({ headers = {}, url = '', method, data = null }: ApiData & { data?: T | null }) {
+  async CALL<T, D>({ headers = {}, url = '', method, data = null }: ApiData & { data?: T | null }) {
     const config = { headers, url, method, data }
     try {
-      const response = await this.Fetch(config)
+      const response: AxiosResponse<D> = await this.Fetch<T>(config)
 
       return response
     } catch (error) {
@@ -57,32 +57,32 @@ class API {
     }
   }
 
-  GET(urlData: string) {
+  GET<T, D>(urlData: string) {
     console.log(urlData)
-    return this.CALL({
+    return this.CALL<T, D>({
       method: 'GET',
       url: urlData,
     })
   }
 
-  POST<T>(params: ApiData & { data?: T | null }) {
-    return this.CALL({
+  POST<T, D>(params: ApiData & { data?: T | null }) {
+    return this.CALL<T, D>({
       ...params,
       method: 'POST',
       url: params.url,
     })
   }
 
-  PUT<T>(params: ApiData & { data?: T | null }) {
-    return this.CALL({
+  PUT<T, D>(params: ApiData & { data?: T | null }) {
+    return this.CALL<T, D>({
       ...params,
       method: 'PUT',
       url: params.url,
     })
   }
 
-  DELETE<T>(params: ApiData & { data?: T | null }) {
-    return this.CALL({
+  DELETE<T, D>(params: ApiData & { data?: T | null }) {
+    return this.CALL<T, D>({
       ...params,
       method: 'DELETE',
       url: params.url,
