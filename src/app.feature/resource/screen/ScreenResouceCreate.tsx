@@ -10,7 +10,6 @@ import { UploadChangeParam } from 'antd/lib/upload'
 import { UploadFile } from 'antd/lib/upload/interface'
 import { ContentDataType, UploadFileType } from 'app.feature/resource/types/resourceType'
 import { createResoucre } from 'app.modules/api/resource'
-import { useQueryGetResourceDetail } from '../query/useQueryResource'
 
 const ToastEditor = dynamic(() => import('app.components/Editor/editor'), {
   ssr: false,
@@ -25,15 +24,6 @@ const ScreenResourceEdit = () => {
   const [isSaveButtonActive, setIsSaveButtonActive] = useState<boolean>(false)
   const [fileList, setFileList] = useState<UploadFile[]>([])
   const [contentData, setContentData] = useState<ContentDataType>({ html: '', markdown: '' })
-
-  const { isLoading, isError } = useQueryGetResourceDetail(
-    router.query.id as string,
-    setContentData,
-    form
-  )
-
-  if (isError) return <Error />
-  if (isLoading) return <LottieLoadingTable />
 
   const normFile = (e: any) => {
     if (Array.isArray(e)) {
@@ -74,14 +64,17 @@ const ScreenResourceEdit = () => {
 
   const handleFinish = (values: any) => {
     const imagesLocations = getImages(contentData.html)
+    console.log(form.getFieldValue('files'))
     let formData = new FormData()
     formData.append('boardType', values.type)
     formData.append('title', values.name)
     formData.append('content', values.contents)
     formData.append('imagesLocations', JSON.stringify(imagesLocations))
-    formData.append('files', values.files)
+    formData.append('files', form.getFieldValue('files')?.fileList)
+    // formData.append('files', form.getFieldValue('files')?.fileList.originFileObj as Blob)
     try {
       createResoucre(formData).then((response) => {
+        console.log(response)
         router.back()
       })
     } catch {
@@ -94,8 +87,7 @@ const ScreenResourceEdit = () => {
   }
 
   const handleFileChange = (info: UploadChangeParam<UploadFile<any>>) => {
-    console.log(info)
-    setFileList(info.fileList)
+    setFileList([...fileList, info.file])
   }
 
   if (false) return <Error />
@@ -152,7 +144,7 @@ const ScreenResourceEdit = () => {
             />
           </Form.Item>
           <Form.Item name="files" label="Files" getValueProps={normFile} initialValue={fileList}>
-            <Dragger onChange={handleFileChange} defaultFileList={fileList}>
+            <Dragger onChange={handleFileChange}>
               <p className="ant-upload-drag-icon">
                 <InboxOutlined />
               </p>
