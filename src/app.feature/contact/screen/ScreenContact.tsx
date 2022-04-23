@@ -26,7 +26,7 @@ const ScreenContact = () => {
           className="table"
           bordered
           size="middle"
-          columns={DataColumns()}
+          columns={DataColumns}
           dataSource={contactData}
           pagination={{
             pageSize: 20,
