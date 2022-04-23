@@ -1,6 +1,7 @@
+import { templateDataColumns } from 'app.modules/templateTableColumn'
 import { TUser } from '../constants/type'
 
-const DataColumns = () => [
+export default templateDataColumns<TUser>([
   {
     title: 'Index',
     key: 'index',
@@ -47,6 +48,4 @@ const DataColumns = () => [
     dataIndex: 'modifiedAt',
     width: '10%',
   },
-]
-
-export default DataColumns
+])
