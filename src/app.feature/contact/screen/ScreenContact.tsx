@@ -4,15 +4,19 @@ import LottieLoadingTable from 'app.components/Loading/LottieLoadingTable'
 import React from 'react'
 import styled from 'styled-components'
 import DataColumns from '../component/DataColumns'
+import { TContact } from '../constants/type'
 import { useQueryGetContacts } from '../query/useQueryContact'
 
 const ScreenContact = () => {
   const { data, isLoading, isError, isSuccess } = useQueryGetContacts()
+  let contactData: TContact[] = []
 
   if (isError) return <Error />
   if (isLoading) return <LottieLoadingTable />
   if (isSuccess) {
-    data.map((contact, idx) => (contact.index = idx + 1))
+    contactData = (data as TContact[]).map((contact, idx) => {
+      return { ...contact, index: idx + 1 }
+    })
   }
 
   return (
@@ -21,13 +25,14 @@ const ScreenContact = () => {
         <Table
           className="table"
           bordered
-          size="large"
+          size="middle"
           columns={DataColumns()}
-          dataSource={data}
+          dataSource={contactData}
           pagination={{
             pageSize: 20,
             total: data?.length,
           }}
+          rowKey={(row) => row._id}
         />
       </div>
     </StyledWrapper>

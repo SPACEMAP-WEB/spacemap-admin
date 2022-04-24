@@ -4,7 +4,7 @@ import { useQuery } from 'react-query'
 import { TContact } from '../constants/type'
 
 const requestApiGetContact = async ({ id }: { id: string | null }) => {
-  const res = await api.GET(API_GET_CONTACTS + (id ? `/${id}` : ''))
+  const res = await api.GET<TContact, null>(API_GET_CONTACTS + (id ? `/${id}` : ''))
   return res.data.data
 }
 

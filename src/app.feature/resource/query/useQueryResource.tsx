@@ -14,6 +14,7 @@ export const useQueryGetResource = () => {
   return useQuery<ResourceDataType[]>([API_RESOURCE], () => requestApiGetResource({ id: null }))
 }
 
+
 export const useQueryGetResourceDetail = (
   id: string,
   setState: React.Dispatch<React.SetStateAction<ContentDataType>>,
@@ -25,13 +26,11 @@ export const useQueryGetResourceDetail = (
         html: data.content as string,
         markdown: '',
       })
-      console.log(data)
       form.setFieldsValue({
         type: data.boardType,
         name: data.title,
         files: data.filesLocations,
       })
-      console.log(form.getFieldsValue(true))
     },
   })
 }

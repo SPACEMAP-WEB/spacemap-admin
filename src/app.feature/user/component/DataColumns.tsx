@@ -1,6 +1,7 @@
+import { templateDataColumns } from 'app.modules/templateTableColumn'
 import { TUser } from '../constants/type'
 
-const DataColumns = () => [
+export default templateDataColumns<TUser>([
   {
     title: 'Index',
     key: 'index',
@@ -10,9 +11,9 @@ const DataColumns = () => [
   },
   {
     title: 'UserName',
-    dataIndex: 'username',
     key: 'username',
     width: '10%',
+    render: (value: string, row: TUser) => <div>{row.firstname + row.lastname}</div>,
   },
   {
     title: 'Email',
@@ -20,11 +21,31 @@ const DataColumns = () => [
     dataIndex: 'email',
   },
   {
-    title: 'Date',
-    key: 'date',
-    dataIndex: 'date',
+    title: 'UserType',
+    key: 'userType',
+    dataIndex: 'userType',
+  },
+  {
+    title: 'affiliation',
+    key: 'affiliation',
+    dataIndex: 'affiliation',
+  },
+  {
+    title: 'createdAt',
+    key: 'createdAt',
+    dataIndex: 'createdAt',
     width: '10%',
   },
-]
-
-export default DataColumns
+  {
+    title: 'lastLoggedAt',
+    key: 'lastLoggedAt',
+    dataIndex: 'lastLoggedAt',
+    width: '10%',
+  },
+  {
+    title: 'modifiedAt',
+    key: 'modifiedAt',
+    dataIndex: 'modifiedAt',
+    width: '10%',
+  },
+])

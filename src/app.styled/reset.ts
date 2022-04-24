@@ -15,8 +15,7 @@ export const resetCSS = `
     margin: 0;
     padding: 0;
     border: 0;
-    font: inherit;
-    font-family: 'Mulish', 'Gothic A1', Dotum, '돋움', 'Apple SD Gothic Neo', sans-serif;
+    font-family:Spoqa Han Sans;
     box-sizing: border-box;
   }
 
