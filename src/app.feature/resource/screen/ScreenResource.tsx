@@ -38,7 +38,7 @@ const ScreenResource = () => {
 
   const handleCreateClick = () => {
     router.push({
-      pathname: router.pathname + '/edit',
+      pathname: router.pathname + '/create',
     })
   }
 

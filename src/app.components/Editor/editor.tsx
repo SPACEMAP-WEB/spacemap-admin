@@ -25,6 +25,7 @@ const ToastEditor = ({ contentData, setContentData, onBlur }: EditorProps) => {
 
   React.useEffect(() => {
     if (editorRef.current) {
+      editorRef.current.getInstance().setHTML(contentData.html)
       editorRef.current.getInstance().removeHook('addImageBlobHook')
       editorRef.current.getInstance().addHook('addImageBlobHook', async (blob, callback) => {
         const response = await uploadImage(blob)
@@ -37,7 +38,7 @@ const ToastEditor = ({ contentData, setContentData, onBlur }: EditorProps) => {
 
   return (
     <Editor
-      initialValue={''}
+      initialValue={contentData.html}
       previewStyle="vertical"
       initialEditType="wysiwyg"
       useCommandShortcut={true}
