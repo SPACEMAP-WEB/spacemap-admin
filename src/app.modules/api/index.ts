@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosInstance, AxiosRequestHeaders, AxiosResponse } from 'axios'
 import { notification } from 'antd'
-import { API_GET_ACCESSTOKEN, API_GET_TOKENS, API_LOGIN } from 'app.modules/keyFactory'
+import { API_GET_ACCESSTOKEN, API_LOGIN, API_LOGIN_CHECK } from 'app.modules/keyFactory'
 
 axios.defaults.withCredentials = true
 
@@ -41,7 +41,7 @@ class API {
       const axiosError = error as AxiosError
       const { message, status } = axiosError.response?.data
 
-      if (url !== API_LOGIN && url !== API_GET_TOKENS && message !== 'TokenExpiredError') {
+      if (url !== API_LOGIN && url !== API_LOGIN_CHECK && message !== 'TokenExpiredError') {
         notification.error({
           message: 'error',
           description: message.length > 0 ? message : axiosError.toString(),
