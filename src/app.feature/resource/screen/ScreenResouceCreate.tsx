@@ -70,8 +70,9 @@ const ScreenResourceEdit = () => {
     formData.append('title', values.name)
     formData.append('content', values.contents)
     formData.append('imagesLocations', JSON.stringify(imagesLocations))
-    formData.append('files', form.getFieldValue('files')?.fileList)
-    // formData.append('files', form.getFieldValue('files')?.fileList.originFileObj as Blob)
+    form
+      .getFieldValue('files')
+      .fileList?.forEach((file: any) => formData.append('files', file.originFileObj as Blob))
     try {
       createResoucre(formData).then((response) => {
         console.log(response)
