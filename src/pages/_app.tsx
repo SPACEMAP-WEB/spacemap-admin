@@ -26,6 +26,7 @@ const queryClient = new QueryClient({
 })
 
 const App = ({ Component, pageProps }: AppProps) => {
+  console.log(process.env.NODE_ENV)
   const { login, isLoading } = useSelector((state: RootState) => state.login)
   const dispatch = useDispatch()
 
