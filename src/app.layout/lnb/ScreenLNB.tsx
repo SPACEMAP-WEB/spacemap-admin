@@ -127,7 +127,7 @@ const StyledMenuHeader = styled.div`
   }
 `
 
-export const TinyHeader = ({ text, padding = '0' }: { text: string; padding: string }) => (
+export const TinyHeader = ({ text, padding = '0' }: { text: string; padding?: string }) => (
   <TinyStyled className="tiny-header" style={{ padding }}>
     {text}
   </TinyStyled>
