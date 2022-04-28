@@ -22,7 +22,7 @@ const ScreenUser = () => {
           className="table"
           bordered
           size="middle"
-          columns={DataColumns()}
+          columns={DataColumns}
           dataSource={data}
           pagination={{
             pageSize: 10,

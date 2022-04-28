@@ -1,4 +1,7 @@
-const env = require('./.env.config.json')
+const envrc = require('./.env.config.json')
+const env = envrc[process.env.NODE_ENV]
+
+console.log(env)
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
