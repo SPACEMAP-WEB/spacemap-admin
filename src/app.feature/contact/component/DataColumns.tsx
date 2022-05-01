@@ -1,4 +1,3 @@
-import RowDetailShow from 'app.components/Table/RowDetailShow'
 import { templateDataColumns } from 'app.modules/templateTableColumn'
 import { TContact } from '../constants/type'
 
@@ -35,10 +34,10 @@ export default templateDataColumns<TContact>([
     width: '10%',
     render: (value: string) => <div>{value.split('T')[0]}</div>,
   },
-  {
-    dataIndex: 'action',
-    key: 'action',
-    width: '10%',
-    render: (value: string, row: TContact) => <RowDetailShow />,
-  },
+  // {
+  //   dataIndex: 'action',
+  //   key: 'action',
+  //   width: '10%',
+  //   render: (value: string, row: TContact) => <RowDetailShow />,
+  // },
 ])

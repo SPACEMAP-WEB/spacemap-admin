@@ -7,11 +7,12 @@ import styled from 'styled-components'
 import DataColumns from '../component/DataColumns'
 import RowDeleteMessage from '../component/RowDeleteMessage'
 import { useQueryGetResource } from '../query/useQueryResource'
+import moment from 'moment'
 
 type RecordType = {
-  id: number
+  id: string
   title: string
-  index: string
+  index: number
   date: string
   type: string
 }
@@ -28,10 +29,10 @@ const ScreenResource = () => {
     dataSet = data.map<RecordType>((item, id) => {
       return {
         title: item.title,
-        index: item._id,
-        date: item.createdAt,
+        index: id + 1,
+        date: moment(item.createdAt).format('YYYY-MM-DD / HH:MM:SS'),
         type: item.boardType,
-        id: id + 1,
+        id: item._id,
       }
     })
   }
@@ -45,7 +46,7 @@ const ScreenResource = () => {
   const handleRowClick = (value: RecordType) => {
     router.push({
       pathname: router.pathname + '/edit',
-      query: { id: value.index },
+      query: { id: value.id },
     })
   }
 
@@ -68,7 +69,7 @@ const ScreenResource = () => {
           onRow={(record) => {
             return { onClick: () => handleRowClick(record) }
           }}
-          columns={DataColumns()}
+          columns={DataColumns}
           dataSource={dataSet}
           rowKey={(row) => row.id}
           pagination={{

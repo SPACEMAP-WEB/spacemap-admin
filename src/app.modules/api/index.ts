@@ -39,16 +39,20 @@ class API {
       return response
     } catch (error) {
       const axiosError = error as AxiosError
-      const { message, status } = axiosError.response?.data
+      const response = axiosError.response?.data
 
-      if (url !== API_LOGIN && url !== API_LOGIN_CHECK && message !== 'TokenExpiredError') {
+      if (
+        url !== API_LOGIN &&
+        url !== API_LOGIN_CHECK &&
+        response?.message !== 'TokenExpiredError'
+      ) {
         notification.error({
           message: 'error',
-          description: message.length > 0 ? message : axiosError.toString(),
+          description: response?.message.length > 0 ? response?.message : axiosError.toString(),
         })
       }
 
-      if (status === 401 && message === 'TokenExpiredError') {
+      if (response?.status === 401 && response?.message === 'TokenExpiredError') {
         await this.Fetch({ ...config, method: 'GET', url: API_GET_ACCESSTOKEN })
         const response = await this.Fetch({ headers, url, method, data })
         return response

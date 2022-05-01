@@ -28,11 +28,26 @@ export type ContentDataType = {
 
 export type ResourceDataType = {
   _id: string
+  id: string
+  index: number
+  type: string
   boardType: string
   title: string
   content: string
   imagesLocations: string[]
   filesLocations: []
+  date: string
+  createdAt: string
+  __v: number
+}
+
+export type ResourceFileData = {
+  _id: string
+  placeID: string
+  originalName: string
+  fileName: string
+  location: string
+  type: string
   createdAt: string
   __v: number
 }

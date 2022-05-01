@@ -1,9 +1,12 @@
-const DataColumns: any = () => [
+import { templateDataColumns } from 'app.modules/templateTableColumn'
+import { ResourceDataType } from '../types/resourceType'
+
+export default templateDataColumns<ResourceDataType>([
   {
     title: 'Index',
+    dataIndex: 'index',
     key: 'index',
     align: 'center',
-    render: (index: number) => index + 1,
     width: '5%',
   },
   {
@@ -17,7 +20,10 @@ const DataColumns: any = () => [
     key: 'title',
     dataIndex: 'title',
   },
-  { title: 'Date', key: 'date', dataIndex: 'date', width: '10%' },
-]
-
-export default DataColumns
+  {
+    title: 'Date',
+    key: 'date',
+    dataIndex: 'date',
+    width: '15%',
+  },
+])
