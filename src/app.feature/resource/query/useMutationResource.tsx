@@ -18,6 +18,7 @@ export const useMutationPostResource = () => {
       router.back()
     },
     onError: (error) => {
+      router.back()
       console.error(error)
     },
   })
