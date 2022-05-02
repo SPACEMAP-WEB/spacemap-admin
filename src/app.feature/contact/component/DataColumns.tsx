@@ -34,10 +34,4 @@ export default templateDataColumns<TContact>([
     width: '10%',
     render: (value: string) => <div>{value.split('T')[0]}</div>,
   },
-  // {
-  //   dataIndex: 'action',
-  //   key: 'action',
-  //   width: '10%',
-  //   render: (value: string, row: TContact) => <RowDetailShow />,
-  // },
 ])

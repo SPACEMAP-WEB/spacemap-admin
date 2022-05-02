@@ -19,7 +19,6 @@ const { Dragger } = Upload
 const ScreenResourceEdit = () => {
   const router = useRouter()
   const [form] = Form.useForm()
-  // const [isSaveButtonActive, setIsSaveButtonActive] = useState<boolean>(false)
   const [fileList, setFileList] = useState<UploadFile[]>([])
   const [contentData, setContentData] = useState<ContentDataType>({ html: '', markdown: '' })
   const postMutation = useMutationPostResource()
@@ -42,9 +41,6 @@ const ScreenResourceEdit = () => {
       | Record<'imagesLocations', string[]>
   ) => {
     form.setFieldsValue(data)
-    // const formValuesList = Object.values(form.getFieldsValue(true))
-    // const isSomeValueNull = formValuesList.includes(null)
-    // setIsSaveButtonActive(!isSomeValueNull)
   }
 
   const handleEditorBlur = () => {
