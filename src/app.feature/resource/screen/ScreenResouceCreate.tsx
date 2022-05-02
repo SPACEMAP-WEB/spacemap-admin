@@ -3,13 +3,11 @@ import styled from 'styled-components'
 import { Form, message, Button, Input, Select, Upload } from 'antd'
 import { InboxOutlined } from '@ant-design/icons'
 import { useRouter } from 'next/router'
-import LottieLoadingTable from 'app.components/Loading/LottieLoadingTable'
-import Error from 'app.components/Error/Error'
 import dynamic from 'next/dynamic'
 import { UploadChangeParam } from 'antd/lib/upload'
 import { UploadFile } from 'antd/lib/upload/interface'
 import { ContentDataType, UploadFileType } from 'app.feature/resource/types/resourceType'
-import { createResoucre } from 'app.modules/api/resource'
+import { useMutationPostResource } from '../query/useMutationResource'
 
 const ToastEditor = dynamic(() => import('app.components/Editor/editor'), {
   ssr: false,
@@ -21,9 +19,9 @@ const { Dragger } = Upload
 const ScreenResourceEdit = () => {
   const router = useRouter()
   const [form] = Form.useForm()
-  const [isSaveButtonActive, setIsSaveButtonActive] = useState<boolean>(false)
   const [fileList, setFileList] = useState<UploadFile[]>([])
   const [contentData, setContentData] = useState<ContentDataType>({ html: '', markdown: '' })
+  const postMutation = useMutationPostResource()
 
   const normFile = (e: any) => {
     if (Array.isArray(e)) {
@@ -43,9 +41,6 @@ const ScreenResourceEdit = () => {
       | Record<'imagesLocations', string[]>
   ) => {
     form.setFieldsValue(data)
-    const formValuesList = Object.values(form.getFieldsValue(true))
-    const isSomeValueNull = formValuesList.includes(null)
-    setIsSaveButtonActive(!isSomeValueNull)
   }
 
   const handleEditorBlur = () => {
@@ -73,14 +68,7 @@ const ScreenResourceEdit = () => {
     form
       .getFieldValue('files')
       .fileList?.forEach((file: any) => formData.append('files', file.originFileObj as Blob))
-    try {
-      createResoucre(formData).then((response) => {
-        console.log(response)
-        router.back()
-      })
-    } catch {
-      console.log('error')
-    }
+    postMutation.mutate(formData)
   }
 
   const handleBackPress = () => {
@@ -90,9 +78,6 @@ const ScreenResourceEdit = () => {
   const handleFileChange = (info: UploadChangeParam<UploadFile<any>>) => {
     setFileList([...fileList, info.file])
   }
-
-  if (false) return <Error />
-  if (false) return <LottieLoadingTable />
 
   return (
     <StyledWrapper>
@@ -161,7 +146,7 @@ const ScreenResourceEdit = () => {
           <Button type="primary" htmlType="submit">
             Save
           </Button>
-          <Button htmlType="button" onClick={handleBackPress} disabled={!isSaveButtonActive}>
+          <Button htmlType="button" onClick={handleBackPress}>
             Back
           </Button>
         </div>

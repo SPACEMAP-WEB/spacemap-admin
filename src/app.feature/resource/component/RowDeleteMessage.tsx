@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Button, Alert } from 'antd'
+import { Button, Alert, message } from 'antd'
+import { useMutationDeleteResource } from '../query/useMutationResource'
+import { useQueryClient } from 'react-query'
+import { API_RESOURCE } from 'app.modules/keyFactory'
 
 type DeleteMessageProps = {
   selectedRowKeys: React.Key[]
@@ -8,9 +11,20 @@ type DeleteMessageProps = {
 }
 
 const RowDeleteMessage = ({ selectedRowKeys, setSelectedRowKeys }: DeleteMessageProps) => {
+  const queryClient = useQueryClient()
   const [isChecked, setIsChecked] = useState(false)
+
+  const { mutateAsync } = useMutationDeleteResource()
+
   const handleDeletePress = async () => {
-    setSelectedRowKeys([])
+    try {
+      await Promise.all(selectedRowKeys.map((id: string) => mutateAsync(id)))
+      queryClient.invalidateQueries([API_RESOURCE])
+      message.success('삭제에 성공했습니다!')
+      setSelectedRowKeys([])
+    } catch (error) {
+      message.error('삭제에 실패했습니다!')
+    }
   }
   useEffect(() => {
     selectedRowKeys.length && setIsChecked(true)

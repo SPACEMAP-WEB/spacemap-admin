@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Form, message, Button, Input, Select, Upload } from 'antd'
 import { InboxOutlined } from '@ant-design/icons'
@@ -8,9 +8,17 @@ import Error from 'app.components/Error/Error'
 import dynamic from 'next/dynamic'
 import { UploadChangeParam } from 'antd/lib/upload'
 import { UploadFile } from 'antd/lib/upload/interface'
-import { ContentDataType, UploadFileType } from 'app.feature/resource/types/resourceType'
-import { createResoucre } from 'app.modules/api/resource'
+import {
+  ContentDataType,
+  ResourceFileData,
+  // eslint-disable-next-line @typescript-eslint/comma-dangle
+  UploadFileType,
+} from 'app.feature/resource/types/resourceType'
 import { useQueryGetResourceDetail } from '../query/useQueryResource'
+import { useQuery } from 'react-query'
+import api from 'app.modules/api'
+import { API_GET_RESOURCE_FILES } from 'app.modules/keyFactory'
+import { useMutationDeleteResource, useMutationPostResource } from '../query/useMutationResource'
 
 const ToastEditor = dynamic(() => import('app.components/Editor/editor'), {
   ssr: false,
@@ -22,15 +30,30 @@ const { Dragger } = Upload
 const ScreenResourceEdit = () => {
   const router = useRouter()
   const [form] = Form.useForm()
-  const [isSaveButtonActive, setIsSaveButtonActive] = useState<boolean>(false)
   const [fileList, setFileList] = useState<UploadFile[]>([])
   const [contentData, setContentData] = useState<ContentDataType>({ html: '', markdown: '' })
+  const [loadingFile, setLoadingFile] = useState(false)
 
-  const { isLoading, isError } = useQueryGetResourceDetail(
-    router.query.id as string,
+  const deleteMutation = useMutationDeleteResource()
+  const postMutation = useMutationPostResource()
+
+  const {
+    data: fileData,
+    isLoading: isLoadingFile,
+    isError: isErrorFile,
+  } = useQuery<ResourceFileData[]>([API_GET_RESOURCE_FILES, router.query.id], async () => {
+    const res = await api.GET(API_GET_RESOURCE_FILES + `/${router.query.id as string}`)
+    return res.data.data
+  })
+
+  const { isLoading, isError } = useQueryGetResourceDetail({
+    id: router.query.id as string,
     setContentData,
-    form
-  )
+    setFileList,
+    form,
+    fileData,
+    setLoadingFile,
+  })
 
   if (isError) return <Error />
   if (isLoading) return <LottieLoadingTable />
@@ -53,9 +76,6 @@ const ScreenResourceEdit = () => {
       | Record<'imagesLocations', string[]>
   ) => {
     form.setFieldsValue(data)
-    const formValuesList = Object.values(form.getFieldsValue(true))
-    const isSomeValueNull = formValuesList.includes(null)
-    setIsSaveButtonActive(!isSomeValueNull)
   }
 
   const handleEditorBlur = () => {
@@ -72,20 +92,19 @@ const ScreenResourceEdit = () => {
     return images
   }
 
-  const handleFinish = (values: any) => {
-    const imagesLocations = getImages(contentData.html)
-    let formData = new FormData()
-    formData.append('boardType', values.type)
-    formData.append('title', values.name)
-    formData.append('content', values.contents)
-    formData.append('imagesLocations', JSON.stringify(imagesLocations))
-    formData.append('files', values.files)
+  const handleFinish = async (values: any) => {
     try {
-      createResoucre(formData).then((response) => {
-        router.back()
-      })
-    } catch {
-      console.log('error')
+      await deleteMutation.mutateAsync(router.query.id as string)
+      const imagesLocations = getImages(contentData.html)
+      let formData = new FormData()
+      formData.append('boardType', values.type)
+      formData.append('title', values.name)
+      formData.append('content', values.contents)
+      formData.append('imagesLocations', JSON.stringify(imagesLocations))
+      formData.append('files', values.files)
+      postMutation.mutate(formData)
+    } catch (error) {
+      console.error(error)
     }
   }
 
@@ -94,12 +113,11 @@ const ScreenResourceEdit = () => {
   }
 
   const handleFileChange = (info: UploadChangeParam<UploadFile<any>>) => {
-    console.log(info)
     setFileList(info.fileList)
   }
 
-  if (false) return <Error />
-  if (false) return <LottieLoadingTable />
+  if (isError || isErrorFile) return <Error />
+  if (isLoading || isLoadingFile || !loadingFile) return <LottieLoadingTable />
 
   return (
     <StyledWrapper>
@@ -168,7 +186,7 @@ const ScreenResourceEdit = () => {
           <Button type="primary" htmlType="submit">
             Save
           </Button>
-          <Button htmlType="button" onClick={handleBackPress} disabled={!isSaveButtonActive}>
+          <Button htmlType="button" onClick={handleBackPress}>
             Back
           </Button>
         </div>

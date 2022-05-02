@@ -19,16 +19,12 @@ export const uploadImage = async (blob: File) => {
 }
 
 export const createResoucre = async (formData: FormData) => {
-  try {
-    const response = await api.POST({
-      headers: {
-        'content-type': 'multipart/form-data',
-      },
-      url: API_RESOURCE,
-      data: formData,
-    })
-    return response.data
-  } catch {
-    console.log('error')
-  }
+  const response = await api.POST({
+    headers: {
+      'content-type': 'multipart/form-data',
+    },
+    url: API_RESOURCE,
+    data: formData,
+  })
+  return response.data
 }
