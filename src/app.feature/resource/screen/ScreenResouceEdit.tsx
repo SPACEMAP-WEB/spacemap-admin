@@ -8,16 +8,8 @@ import Error from 'app.components/Error/Error'
 import dynamic from 'next/dynamic'
 import { UploadChangeParam } from 'antd/lib/upload'
 import { UploadFile } from 'antd/lib/upload/interface'
-import {
-  ContentDataType,
-  ResourceFileData,
-  // eslint-disable-next-line @typescript-eslint/comma-dangle
-  UploadFileType,
-} from 'app.feature/resource/types/resourceType'
+import { ContentDataType, UploadFileType } from 'app.feature/resource/types/resourceType'
 import { useQueryGetResourceDetail } from '../query/useQueryResource'
-import { useQuery } from 'react-query'
-import api from 'app.modules/api'
-import { API_GET_RESOURCE_FILES } from 'app.modules/keyFactory'
 import { useMutationDeleteResource, useMutationPostResource } from '../query/useMutationResource'
 
 const ToastEditor = dynamic(() => import('app.components/Editor/editor'), {
@@ -37,21 +29,11 @@ const ScreenResourceEdit = () => {
   const deleteMutation = useMutationDeleteResource()
   const postMutation = useMutationPostResource()
 
-  const {
-    data: fileData,
-    isLoading: isLoadingFile,
-    isError: isErrorFile,
-  } = useQuery<ResourceFileData[]>([API_GET_RESOURCE_FILES, router.query.id], async () => {
-    const res = await api.GET(API_GET_RESOURCE_FILES + `/${router.query.id as string}`)
-    return res.data.data
-  })
-
   const { isLoading, isError } = useQueryGetResourceDetail({
     id: router.query.id as string,
     setContentData,
     setFileList,
     form,
-    fileData,
     setLoadingFile,
   })
 
@@ -101,7 +83,7 @@ const ScreenResourceEdit = () => {
       formData.append('title', values.name)
       formData.append('content', values.contents)
       formData.append('imagesLocations', JSON.stringify(imagesLocations))
-      formData.append('files', values.files)
+      fileList?.forEach((file: any) => formData.append('files', file.originFileObj as Blob))
       postMutation.mutate(formData)
     } catch (error) {
       console.error(error)
@@ -116,8 +98,8 @@ const ScreenResourceEdit = () => {
     setFileList(info.fileList)
   }
 
-  if (isError || isErrorFile) return <Error />
-  if (isLoading || isLoadingFile || !loadingFile) return <LottieLoadingTable />
+  if (isError) return <Error />
+  if (isLoading || !loadingFile) return <LottieLoadingTable />
 
   return (
     <StyledWrapper>
@@ -169,7 +151,7 @@ const ScreenResourceEdit = () => {
               onBlur={handleEditorBlur}
             />
           </Form.Item>
-          <Form.Item name="files" label="Files" getValueProps={normFile} initialValue={fileList}>
+          <Form.Item name="files" label="Files" getValueProps={normFile}>
             <Dragger onChange={handleFileChange} defaultFileList={fileList}>
               <p className="ant-upload-drag-icon">
                 <InboxOutlined />
