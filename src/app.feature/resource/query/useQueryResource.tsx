@@ -1,10 +1,16 @@
 import { FormInstance } from 'antd'
 import api from 'app.modules/api'
 import { arrToMap } from 'app.modules/arrToMap'
-import { API_RESOURCE } from 'app.modules/keyFactory'
+import { API_GET_RESOURCE_FILES, API_RESOURCE } from 'app.modules/keyFactory'
 import React from 'react'
 import { useQuery } from 'react-query'
-import { ContentDataType, ResourceDataType, ResourceFileData } from '../types/resourceType'
+import { ContentDataType, ResourceDataType } from '../types/resourceType'
+
+type requestFileType = {
+  data: ResourceDataType
+  id: string
+  setFileList: React.Dispatch<React.SetStateAction<any[]>>
+}
 
 const requestApiGetResource = async ({ id }: { id: string | null }) => {
   const response = await api.GET(API_RESOURCE + (id ? `/${id}` : ''))
@@ -22,19 +28,42 @@ const s3ToBlob = async (link: string, fileName: string) => {
   return file
 }
 
+const requestFileList = async ({ data, id, setFileList }: requestFileType) => {
+  const fileData = await api.GET(API_GET_RESOURCE_FILES + `/${id}`)
+
+  if (fileData.data.data?.length > 0) {
+    const fileDataObj = arrToMap(fileData.data.data)
+    const files = await Promise.all(
+      data.filesLocations.map((fileLink) => s3ToBlob(fileLink, fileDataObj[fileLink]))
+    )
+    const fileList = [
+      ...files.map((file) => {
+        return {
+          lastModified: file.lastModified,
+          name: file.name,
+          size: file.size,
+          type: file.type,
+          originFileObj: file,
+          status: 'done',
+          uid: `rc-upload-${Math.random().toString(36).substr(2, 16)}`,
+        }
+      }),
+    ]
+    setFileList(fileList)
+  }
+}
+
 export const useQueryGetResourceDetail = ({
   id,
   setContentData,
   setFileList,
   form,
-  fileData,
   setLoadingFile,
 }: {
   id: string
   setContentData: React.Dispatch<React.SetStateAction<ContentDataType>>
   setFileList: React.Dispatch<React.SetStateAction<any[]>>
   form: FormInstance<any>
-  fileData: ResourceFileData[]
   setLoadingFile: React.Dispatch<React.SetStateAction<boolean>>
 }) => {
   return useQuery<ResourceDataType>([API_RESOURCE, id], () => requestApiGetResource({ id }), {
@@ -43,26 +72,9 @@ export const useQueryGetResourceDetail = ({
         html: data.content as string,
         markdown: '',
       })
-      if (fileData.length > 0) {
-        const fileDataObj = arrToMap(fileData)
-        const files = await Promise.all(
-          data.filesLocations.map((fileLink) => s3ToBlob(fileLink, fileDataObj[fileLink]))
-        )
-        const fileList = [
-          ...files.map((file) => {
-            return {
-              lastModified: file.lastModified,
-              name: file.name,
-              size: file.size,
-              type: file.type,
-              originFileObj: file,
-              status: 'done',
-              uid: `rc-upload-${Date()}`,
-            }
-          }),
-        ]
-        setFileList(fileList)
-      }
+
+      await requestFileList({ data, id, setFileList })
+
       setLoadingFile(true)
       form.setFieldsValue({
         type: data.boardType,

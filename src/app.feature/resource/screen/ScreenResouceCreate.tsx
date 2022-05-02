@@ -59,7 +59,6 @@ const ScreenResourceEdit = () => {
 
   const handleFinish = (values: any) => {
     const imagesLocations = getImages(contentData.html)
-    console.log(form.getFieldValue('files'))
     let formData = new FormData()
     formData.append('boardType', values.type)
     formData.append('title', values.name)
