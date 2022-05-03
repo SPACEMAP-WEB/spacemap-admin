@@ -1,8 +1,8 @@
 import { FormInstance } from 'antd'
 import api from 'app.modules/api'
 import { arrToMap } from 'app.modules/arrToMap'
-import { API_GET_RESOURCE_FILES, API_RESOURCE } from 'app.modules/keyFactory'
-import { useRouter } from 'next/router'
+import { API_GET_RESOURCE_FILES, API_RESOURCE, API_RESOURCES } from 'app.modules/keyFactory'
+import { objectToURL } from 'app.modules/util'
 import React from 'react'
 import { useQuery } from 'react-query'
 import { ContentDataType, ResourceDataType } from '../types/resourceType'
@@ -18,10 +18,15 @@ const requestApiGetResource = async ({ id }: { id: string | null }) => {
   return response.data.data
 }
 
-export const useQueryGetResource = () => {
-  const router = useRouter()
-  const query = { ...router.query }
-  return useQuery<ResourceDataType[]>([API_RESOURCE], () => requestApiGetResource({ id: null }))
+const requestAPiGetResources = async (query) => {
+  const res = await api.GET(API_RESOURCES + objectToURL(query))
+  return res.data.data
+}
+
+export const useQueryGetResource = (query) => {
+  return useQuery<ResourceDataType[]>([API_RESOURCE, query], () => requestAPiGetResources(query), {
+    keepPreviousData: true,
+  })
 }
 
 const s3ToBlob = async (link: string, fileName: string) => {

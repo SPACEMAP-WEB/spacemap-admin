@@ -22,7 +22,7 @@ const { Option } = Select
 const ScreenResource = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
   const router = useRouter()
-  const { data, isLoading, isError, isSuccess } = useQueryGetResource()
+  const { data, isLoading, isError, isSuccess } = useQueryGetResource(router.query)
 
   let dataSet: RecordType[] = []
 
@@ -41,7 +41,7 @@ const ScreenResource = () => {
   }
 
   const handleChange = (value: string) => {
-    router.push({ query: { ...(value ? { type: value } : {}) } })
+    router.push({ query: { ...(value ? { boardType: value } : {}) } })
   }
 
   const handleCreateClick = () => {
@@ -62,7 +62,13 @@ const ScreenResource = () => {
       <div className="button-group">
         <div>
           <span className="text">Type : </span>
-          <Select className="button-select" allowClear onChange={handleChange}>
+          <Select
+            placeholder="type"
+            className="button-select"
+            allowClear
+            onChange={handleChange}
+            defaultValue={router.query.boardType}
+          >
             {['media', 'document'].map((type) => (
               <Option key={type}>{type}</Option>
             ))}
