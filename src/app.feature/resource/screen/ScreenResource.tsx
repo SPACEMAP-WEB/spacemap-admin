@@ -1,4 +1,4 @@
-import { Button, Table } from 'antd'
+import { Button, Select, Table } from 'antd'
 import { useRouter } from 'next/router'
 import Error from 'app.components/Error/Error'
 import LottieLoadingTable from 'app.components/Loading/LottieLoadingTable'
@@ -17,10 +17,13 @@ type RecordType = {
   type: string
 }
 
+const { Option } = Select
+
 const ScreenResource = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
   const router = useRouter()
   const { data, isLoading, isError, isSuccess } = useQueryGetResource()
+
   let dataSet: RecordType[] = []
 
   if (isError) return <Error />
@@ -35,6 +38,10 @@ const ScreenResource = () => {
         id: item._id,
       }
     })
+  }
+
+  const handleChange = (value: string) => {
+    router.push({ query: { ...(value ? { type: value } : {}) } })
   }
 
   const handleCreateClick = () => {
@@ -53,6 +60,14 @@ const ScreenResource = () => {
   return (
     <StyledWrapper>
       <div className="button-group">
+        <div>
+          <span className="text">Type : </span>
+          <Select className="button-select" allowClear onChange={handleChange}>
+            {['media', 'document'].map((type) => (
+              <Option key={type}>{type}</Option>
+            ))}
+          </Select>
+        </div>
         <Button className="button" type="primary" onClick={handleCreateClick}>
           생성하기
         </Button>
@@ -89,9 +104,16 @@ const ScreenResource = () => {
 export default ScreenResource
 
 const StyledWrapper = styled.div`
+  .text {
+    font-weight: bold;
+    font-size: 15px;
+  }
+  .button-select {
+    width: 110px;
+  }
   .button-group {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     margin-bottom: 10px;
   }
   .ant-table-row {

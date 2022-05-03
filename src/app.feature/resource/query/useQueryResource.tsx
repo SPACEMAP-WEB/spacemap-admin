@@ -2,6 +2,7 @@ import { FormInstance } from 'antd'
 import api from 'app.modules/api'
 import { arrToMap } from 'app.modules/arrToMap'
 import { API_GET_RESOURCE_FILES, API_RESOURCE } from 'app.modules/keyFactory'
+import { useRouter } from 'next/router'
 import React from 'react'
 import { useQuery } from 'react-query'
 import { ContentDataType, ResourceDataType } from '../types/resourceType'
@@ -18,6 +19,8 @@ const requestApiGetResource = async ({ id }: { id: string | null }) => {
 }
 
 export const useQueryGetResource = () => {
+  const router = useRouter()
+  const query = { ...router.query }
   return useQuery<ResourceDataType[]>([API_RESOURCE], () => requestApiGetResource({ id: null }))
 }
 
