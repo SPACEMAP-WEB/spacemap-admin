@@ -8,6 +8,7 @@ export const API_GET_ACCESSTOKEN = '/accesstoken'
 export const API_POST_RESOURCE_IMAGE = '/resource-file/'
 export const API_GET_RESOURCE_FILES = '/resource-file/places'
 export const API_RESOURCE = '/resource/'
+export const API_RESOURCES = '/resources'
 
 // contact
 export const API_GET_CONTACTS = '/contacts'
