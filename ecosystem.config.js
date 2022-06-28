@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       name: 'spacemap-admin',
-      script: 'next start',
+      script: 'npm run start',
       instances: 1,
       exec_mode: 'cluster',
       env: {
@@ -23,7 +23,7 @@ module.exports = {
       path: 'DESTINATION_PATH',
       'pre-deploy-local': '',
       'post-deploy': 'npm install && pm2 reload ecosystem.config.js --env production',
-      'pre-setup': '',
+      'pre-setup': 'npm run build',
     },
   },
 }
