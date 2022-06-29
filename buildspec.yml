@@ -24,7 +24,8 @@ phases:
       nodejs: 14
       # name: version
     commands:
-      - npm install
+      - n 16
+      - npm install --force
       # - command
   pre_build:
     commands:

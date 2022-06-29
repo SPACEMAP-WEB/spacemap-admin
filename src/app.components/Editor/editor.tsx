@@ -1,8 +1,8 @@
 import * as React from 'react'
-import { Editor } from '@toast-ui/react-editor'
 import '@toast-ui/editor/dist/toastui-editor.css'
 import { ContentDataType } from 'app.feature/resource/types/resourceType'
 import { uploadImage } from 'app.modules/api/resource'
+import { Editor } from '@toast-ui/react-editor'
 
 type EditorProps = {
   contentData: ContentDataType
